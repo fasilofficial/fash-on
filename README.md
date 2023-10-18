@@ -11,7 +11,6 @@ Fash-on is a e-commerce web application developed using Node.js, Express.js, and
 - Delete products, categories
 - Block/unblock users
 
-## Project status
-Ongoing
+### Project status - Ongoing
 
 
