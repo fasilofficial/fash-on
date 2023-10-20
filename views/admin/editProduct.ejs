@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Evara Dashboard</title>
+  <title>Fash on Dashboard</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,7 +49,7 @@
             </div>
             <div class="col">
               <label for="category">Category:</label>
-              <select id="category" required class="form-select" aria-label="Default select example" name="category">
+              <select id="category" required class="form-select" aria-label="Default select example" name="category" required>
                 <option value="<%= product.category %>" selected>
                   <%= product.category[0].toUpperCase() + product.category.slice(1) %>
                 </option>

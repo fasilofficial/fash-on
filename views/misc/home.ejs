@@ -23,7 +23,8 @@
 
   <body>
     <%- include('../partials/loading.ejs') %>
-    <%- include('../partials/header.ejs') %>
+    <%- include('../partials/header-static.ejs') %>
+      
     <main class="main">
       <section class="home-slider position-relative pt-50">
         <div class="hero-slider-1 dot-style-1 dot-style-1-position-1">
@@ -102,7 +103,7 @@
             >
             <div class="tab-header">
 
-              <a class="view-more d-none d-md-flex" href="/user/products">All Products
+              <a class="view-more d-none d-md-flex" href="/products">All Products
                 <i class="fi-rs-angle-double-small-right"></i>
               </a>
             </div>
@@ -113,7 +114,7 @@
                   <div class="product-cart-wrap mb-30">
                     <div class="product-img-action-wrap mb-10">
                       <div class="product-img product-img-zoom">
-                        <a href="user/products/<%= product._id %>">
+                        <a href="/products/<%= product._id %>">
                           <img
                             class="default-img mb-3"
                             src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
@@ -126,18 +127,11 @@
                           />
                         </a>
                       </div>
-                      <div class="product-action-1">
-                        <a
-                          aria-label="Add To Wishlist"
-                          class="action-btn hover-up"
-                          href="/wishlist"
-                          ><i class="fi-rs-heart"></i
-                        ></a>
-                      </div>
+                      
                     </div>
                     <div class="product-content-wrap">
                       <h2>
-                        <a href="user/products/<%= product._id %>"><%= product.productName %></a>
+                        <a href="/products/<%= product._id %>"><%= product.productName %></a>
                       </h2>
                       <p class="text-muted"><%= product.brand %></p>
                       <div class="product-price">
@@ -145,14 +139,7 @@
                         <span class="old-price">₹<%= product.regularPrice %></span>
                       </div>
                     </div>
-                    <div class="product-action-1 show">
-                      <a
-                        aria-label="Add To Cart"
-                        class="action-btn hover-up"
-                        href="/cart"
-                        ><i class="fi-rs-shopping-bag-add"></i
-                      ></a>
-                    </div>
+                    
                   </div>
                 </div>
                 <% }) %>
@@ -188,7 +175,7 @@
         </div>
       </section>
     </main>
-    <%- include('../partials/footer.ejs') %>
+    <%- include('../partials/footer-static.ejs') %>
     <!-- Vendor JS-->
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
     <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>

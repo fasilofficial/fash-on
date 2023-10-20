@@ -127,6 +127,7 @@ const handleUserLoginOtpVerification = async (req, res) => {
 
     const token = setUser(user);
     res.cookie("userToken", token);
+    res.cookie('userId', user._id);
     res.redirect("/user");
   } catch (error) {
     console.log(error);
@@ -135,7 +136,8 @@ const handleUserLoginOtpVerification = async (req, res) => {
 };
 const handleUserLogout = async (req, res) => {
   res.cookie("userToken", "", { maxAge: 1 });
-  res.redirect("/login");
+  res.cookie("userId", "", { maxAge: 1 });
+  res.redirect("/");
 };
 
 // HANDLE ADMIN LOGIN, LOGIN OTP, AND LOGOUT
@@ -166,7 +168,10 @@ const handleAdminLogin = async (req, res) => {
         .then(() => res.redirect("/login/admin/verify"))
         .done();
     } else {
-      return res.render("auth/admin-login", { email, error: "Invalid password" });
+      return res.render("auth/admin-login", {
+        email,
+        error: "Invalid password",
+      });
     }
   } catch (error) {
     console.log(error);

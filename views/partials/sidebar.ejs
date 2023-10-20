@@ -15,25 +15,25 @@
   </div>
   <nav>
     <ul class="menu-aside">
-      <li class="menu-item">
+      <li class="menu-item <%= path == '/' ? 'active' : '' %>">
         <a class="menu-link" href="/admin">
           <i class="icon material-icons md-home"></i>
           <span class="text">Dashboard</span>
         </a>
       </li>
-      <li class="menu-item">
+      <li class="menu-item <%= path == '/products' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/products">
           <i class="icon material-icons md-shopping_bag"></i>
           <span class="text">Products</span>
         </a>
       </li>
-      <li class="menu-item">
+      <li class="menu-item <%= path == '/users' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/users">
           <i class="icon material-icons md-people"></i>
           <span class="text">Users</span>
         </a>
       </li>
-      <li class="menu-item">
+      <li class="menu-item <%= path == '/categories' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/categories">
           <i class="icon material-icons md-category"></i>
           <span class="text">Categories</span>

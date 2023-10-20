@@ -33,7 +33,14 @@ const {
   handleAdminLogout,
 } = require("./authentication");
 
-const { get404, getRoot } = require("./static");
+const {
+  getRoot,
+  getStaticProducts,
+  getStaticProduct,
+  getAbout,
+  getContact,
+  get404,
+} = require("./static");
 
 const {
   getHome,
@@ -42,8 +49,6 @@ const {
   getWishlist,
   getCart,
   getProfile,
-  getAbout,
-  getContact,
 } = require("./user");
 
 module.exports = {
@@ -78,6 +83,8 @@ module.exports = {
   handleAdminLogout,
   get404,
   getRoot,
+  getStaticProducts,
+  getStaticProduct,
   getHome,
   getAllProducts,
   getProduct,

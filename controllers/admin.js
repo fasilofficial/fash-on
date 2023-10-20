@@ -6,38 +6,104 @@ const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
 
 // GET REQUESTS
 const getAdminDashboard = async (req, res) => {
-  res.render("admin/admin");
+  const path = req.route.path;
+  res.render("admin/admin", { path });
 };
 const getUsers = async (req, res) => {
-  const users = await User.find({});
-  return res.render("admin/users", { users });
+  let perPage = 12;
+  let page = req.query.page || 1;
+
+  try {
+    const users = await User.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await User.count();
+    const pages = Math.ceil(count / perPage);
+
+    const path = req.route.path;
+    res.render("admin/users", {
+      users,
+      current: page,
+      pages,
+      path,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getProducts = async (req, res) => {
-  const products = await Product.find({});
-  res.render("admin/products", { products });
+  let perPage = 12;
+  let page = req.query.page || 1;
+
+  try {
+    const products = await Product.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await Product.count();
+    const pages = Math.ceil(count / perPage);
+
+    const path = req.route.path;
+    res.render("admin/products", {
+      products,
+      current: page,
+      pages,
+      path,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getCategories = async (req, res) => {
-  const categories = await Category.find({});
-  res.render("admin/categories", { categories });
+  let perPage = 12;
+  let page = req.query.page || 1;
+
+  try {
+    const categories = await Category.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await Category.count();
+    const pages = Math.ceil(count / perPage);
+
+    const path = req.route.path;
+    res.render("admin/categories", {
+      categories,
+      current: page,
+      pages,
+      path,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getAddUser = async (req, res) => {
-  res.render("admin/addUser");
+  const path = req.route.path;
+  res.render("admin/addUser", { path });
 };
 const getAddProduct = async (req, res) => {
   const categories = await Category.find({});
-  res.render("admin/addProduct", { sizes, categories });
+  const path = req.route.path;
+  res.render("admin/addProduct", { sizes, categories, path });
 };
 const getEditProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
   const categories = await Category.find({});
-  res.render("admin/editProduct", { product, sizes, categories });
+  const path = req.route.path;
+  res.render("admin/editProduct", { product, sizes, categories, path });
 };
 const getAddCategory = async (req, res) => {
-  res.render("admin/addCategory");
+  const path = req.route.path;
+  res.render("admin/addCategory", { path });
 };
 const getEditCategory = async (req, res) => {
   const category = await Category.findById(req.params.id);
-  res.render("admin/editCategory", { category });
+  const path = req.route.path;
+  res.render("admin/editCategory", { category, path });
 };
 
 // POST REQUESTS
@@ -54,9 +120,11 @@ const handleAddUser = async (req, res) => {
   });
   try {
     await user.save();
+    await req.flash("info", "New user has been added.");
     res.redirect("/admin/users");
   } catch (error) {
     console.log(error);
+    res.redirect("/admin/users");
   }
 };
 const handleAddProduct = async (req, res) => {
@@ -86,6 +154,7 @@ const handleAddProduct = async (req, res) => {
     });
     try {
       product.save();
+      await req.flash("info", "New product has been added.");
       res.redirect("/admin/products");
     } catch (error) {
       console.log(error);
@@ -99,6 +168,7 @@ const handleAddCategory = async (req, res) => {
   });
   try {
     category.save();
+    await req.flash("info", "New category has been added.");
     res.redirect("/admin/categories");
   } catch (error) {
     console.log(error);
@@ -177,6 +247,7 @@ const handleEditCategory = async (req, res) => {
 const handleDeleteProduct = async (req, res) => {
   try {
     await Product.deleteOne({ _id: req.params.id });
+    await req.flash("info", "A product has been deleted.");
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
@@ -185,6 +256,7 @@ const handleDeleteProduct = async (req, res) => {
 const handleDeleteCategory = async (req, res) => {
   try {
     await Category.findByIdAndDelete(req.params.id);
+    await req.flash("info", "A category has been deleted.");
     res.redirect("/admin/categories");
   } catch (error) {
     console.log(error);

@@ -18,8 +18,7 @@ router.get("/products/:id", getProduct);
 router.get("/wishlist", getWishlist);
 router.get("/cart", getCart);
 router.get("/profile", getProfile);
-router.get("/about", getAbout);
-router.get("/contact", getContact);
+
 
 // router.get("/", async (req, res) => {
 //   const products = await Product.find({});

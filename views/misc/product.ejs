@@ -23,7 +23,7 @@
 
   <body>
     <%- include('../partials/loading.ejs') %>
-    <%- include('../partials/header.ejs') %>
+    <%- include('../partials/header-static.ejs') %>
     <main class="main">
       <section class="mt-50 mb-50">
         <div class="container">
@@ -262,19 +262,11 @@
                                 />
                               </a>
                             </div>
-                            <div class="product-action-1">
-                              <a
-                                aria-label="Add to wishlist"
-                                class="action-btn small hover-up"
-                                href="shop-wishlist.html"
-                                tabindex="0"
-                                ><i class="fi-rs-heart"></i
-                              ></a>
-                            </div>
+                           
                           </div>
                           <div class="product-content-wrap">
                             <h2>
-                              <a href="shop-product-right.html" tabindex="0"
+                              <a href="<%= relatedProduct._id %>" tabindex="0"
                                 ><%= relatedProduct.productName %></a
                               >
                             </h2>
@@ -299,7 +291,7 @@
         </div>
       </section>
     </main>
-    <%- include('../partials/footer.ejs') %>
+    <%- include('../partials/footer-static.ejs') %>
     
     <!-- Vendor JS-->
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
