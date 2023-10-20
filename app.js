@@ -59,10 +59,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(express.static("public/assets/css"));
 
-app.use("/admin", isAdminAuthenticated, adminRouter);
-app.use("/user", isUserAuthenticated, userRouter);
-app.use("/", staticRouter);
-
 // GET
 app.get("/", getRoot);
 app.get("/signup", getUserSignup);
@@ -79,6 +75,10 @@ app.post("/logout", handleUserLogout);
 app.post("/login/admin", handleAdminLogin);
 app.post("/login/admin/verify", handleAdminLoginOtpVerification);
 app.post("/logout/admin", handleAdminLogout);
+
+app.use("/admin", isAdminAuthenticated, adminRouter);
+app.use("/user", isUserAuthenticated, userRouter);
+app.use("/", staticRouter);
 
 // Handle 404
 app.get("*", get404);

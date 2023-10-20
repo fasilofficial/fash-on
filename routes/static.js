@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const { isNotUserAuthenticated } = require("../middlewares");
+
 const {
   getRoot,
   getStaticProducts,
@@ -10,6 +12,9 @@ const {
 } = require("../controllers");
 
 router.get("/", getRoot);
+
+router.use(isNotUserAuthenticated);
+
 router.get("/about", getAbout);
 router.get("/contact", getContact);
 router.get("/products", getStaticProducts);
