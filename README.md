@@ -1,7 +1,8 @@
 # fash-on
 Fash-on is a e-commerce web application developed using Node.js, Express.js, and MongoDB
 
-## Initial commit - 18/10/2023
+## Major Commits
+### First - 18/10/2023
 - Admin, user signup
 - Admin, user login with OTP verification
 
@@ -10,7 +11,12 @@ Fash-on is a e-commerce web application developed using Node.js, Express.js, and
 - Edit products, categories
 - Delete products, categories
 - Block/unblock users
+### Second - 25/10/2023
+- List orders, change order status, cancel orders
 
-### Project status - Ongoing
+- Add to cart, Cart item listing, Quantity updation, Item deletion
+- Proceed to checkout (Add address)
+- Place order with Cash on Delivery(Address selection)
+- Show user details, addresses, orders. Add address, edit profile, cancel orders, change password
 
-
+## Project status - Ongoing
