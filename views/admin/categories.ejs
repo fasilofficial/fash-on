@@ -3,7 +3,7 @@
   <!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-products-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:00 GMT -->
   <head>
     <meta charset="utf-8" />
-    <title>Fash on Dashboard</title>
+    <title>Fash on | Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,6 +52,20 @@
             ></button>
           </div>
           <% } %>
+        <% if (locals.messages.error) { %>
+          <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <%= messages.error %>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+          <% } %>
         <table class="table table-responsive table-striped">
           <thead>
             <tr>
@@ -64,23 +78,43 @@
             <% categories.forEach((category, id) => { %>
             <tr>
               <th scope="row"><%= id + 1 %></th>
-              <td><%= category.categoryName[0].toUpperCase() + category.categoryName.slice(1) %></td>
+              <td class="text-capitalize"><%= category.categoryName %></td>
               <td class="text-end">
                 <div class="d-flex flex-row justify-content-end gap-2">
                   <a
-                    class="btn btn-warning"
+                    class="btn btn-sm btn-warning"
                     href="/admin/categories/edit/<%= category._id %>"
                     >Edit</a
                   >
-                  <form
-                    action="/admin/categories/edit/<%= category._id %>?_method=DELETE"
-                    method="POST"
-                  >
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
+                  <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Delete
+                  </button>
                 </div>
               </td>
             </tr>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    You're about to delete the category. Do you want to continue?
+                  </div>
+                  <div class="modal-footer">
+                    <form
+                    action="/admin/categories/edit/<%= category._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             <% }) %>
           </tbody>
         </table>

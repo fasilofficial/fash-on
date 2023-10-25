@@ -130,7 +130,7 @@
                         <a
                           aria-label="Add To Wishlist"
                           class="action-btn hover-up"
-                          href="/wishlist"
+                          href="/user/wishlist/add/<%= product._id %>"
                           ><i class="fi-rs-heart"></i
                         ></a>
                       </div>
@@ -146,12 +146,11 @@
                       </div>
                     </div>
                     <div class="product-action-1 show">
-                      <a
-                        aria-label="Add To Cart"
-                        class="action-btn hover-up"
-                        href="/cart"
-                        ><i class="fi-rs-shopping-bag-add"></i
-                      ></a>
+                      <form id="cart-form" action="/user/cart/add/<%= product._id %>" method="POST">
+                        <button type="submit" class="btn action-btn hover-up cursor" aria-label="Add to cart">
+                          <div><i class="fi-rs-shopping-bag-add"></i></div>
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>

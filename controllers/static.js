@@ -12,10 +12,9 @@ const getRoot = async (req, res) => {
   }
 };
 const getStaticProducts = async (req, res) => {
-  let perPage = 20;
-  let page = req.query.page || 1;
-
   try {
+    let perPage = 20;
+    let page = req.query.page || 1;
     const products = await Product.aggregate([{ $sort: { createdAt: -1 } }])
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -48,17 +47,28 @@ const getStaticProduct = async (req, res) => {
   }
 };
 const getAbout = async (req, res) => {
-  const path = req.route.path;
-  res.render("misc/about", { path });
+  try {
+    const path = req.route.path;
+    res.render("misc/about", { path });
+  } catch (error) {
+    console.log(error)
+  }
 };
 const getContact = async (req, res) => {
-  const path = req.route.path;
-  res.render("misc/contact", { path });
+  try {
+    const path = req.route.path;
+    res.render("misc/contact", { path });
+  } catch (error) {
+    console.log(error)
+  }
 };
-
 const get404 = (req, res) => {
-  const userToken = req.cookies.userToken;
-  res.render("misc/404", { userToken });
+  try {
+    const userToken = req.cookies.userToken;
+    res.render("misc/404", { userToken });
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 module.exports = {

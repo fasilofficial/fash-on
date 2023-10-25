@@ -2,10 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
-const session = require('express-session')
-const flash = require('express-flash')
+const session = require("express-session");
+const flash = require("express-flash");
+const moment = require("moment");
+
 const app = express();
 const PORT = 3000;
+
+app.locals.moment = moment;
 
 const { adminRouter, userRouter, staticRouter } = require("./routes");
 const connectDB = require("./config/db");
@@ -13,6 +17,7 @@ const connectDB = require("./config/db");
 const {
   getUserSignup,
   getUserLogin,
+  handleResendOtp,
   getUserLoginVerify,
   getAdminLogin,
   getAdminLoginVerify,
@@ -29,6 +34,7 @@ const {
 
 const {
   isUserAuthenticated,
+  isNotUserBlocked,
   isAdminAuthenticated,
   isNotUserAuthenticated,
   isNotAdminAuthenticated,
@@ -42,7 +48,7 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: 'secret',
+    secret: "secret",
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -64,6 +70,7 @@ app.get("/", getRoot);
 app.get("/signup", getUserSignup);
 app.get("/login", isNotUserAuthenticated, getUserLogin);
 app.get("/login/verify", isNotUserAuthenticated, getUserLoginVerify);
+app.get("/login/verify/resendOtp", isNotUserAuthenticated, handleResendOtp);
 app.get("/login/admin", isNotAdminAuthenticated, getAdminLogin);
 app.get("/login/admin/verify", isNotAdminAuthenticated, getAdminLoginVerify);
 
@@ -77,7 +84,7 @@ app.post("/login/admin/verify", handleAdminLoginOtpVerification);
 app.post("/logout/admin", handleAdminLogout);
 
 app.use("/admin", isAdminAuthenticated, adminRouter);
-app.use("/user", isUserAuthenticated, userRouter);
+app.use("/user", isUserAuthenticated, isNotUserBlocked, userRouter);
 app.use("/", staticRouter);
 
 // Handle 404

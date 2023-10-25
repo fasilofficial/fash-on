@@ -10,16 +10,21 @@ const {
   getUsers,
   getProducts,
   getCategories,
+  getOrders,
   getAddUser,
   getAddProduct,
   getAddCategory,
   getEditProduct,
   getEditCategory,
+  getViewOrder,
+  getEditOrder,
+  handleCancelOrder,
   handleAddUser,
   handleAddProduct,
   handleAddCategory,
   handleBlockAndUnblock,
   handleEditProduct,
+  handleEditOrder,
   handleEditCategory,
   handleDeleteProduct,
   handleDeleteCategory,
@@ -29,6 +34,7 @@ router.get("/", getAdminDashboard);
 router.get("/users", getUsers);
 router.get("/products", getProducts);
 router.get("/categories", getCategories);
+router.get("/orders", getOrders);
 
 router.get("/users/add", getAddUser);
 router.get("/products/add", getAddProduct);
@@ -36,6 +42,11 @@ router.get("/categories/add", getAddCategory);
 
 router.get("/products/edit/:id", getEditProduct);
 router.get("/categories/edit/:id", getEditCategory);
+
+router.get("/orders/view/:id", getViewOrder);
+router.get("/orders/edit/:id", getEditOrder);
+
+router.get("/orders/cancel/:id", handleCancelOrder);
 
 router.post("/users/add", handleAddUser);
 router.post(
@@ -52,6 +63,7 @@ router.put(
   handleEditProduct
 );
 router.put("/categories/edit/:id", handleEditCategory);
+router.put("/orders/edit/:id", handleEditOrder)
 
 router.delete("/products/edit/:id", handleDeleteProduct);
 router.delete("/categories/edit/:id", handleDeleteCategory);

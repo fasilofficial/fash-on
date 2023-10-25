@@ -1,19 +1,22 @@
 const bcrypt = require("bcrypt");
 
-const { Category, Product, User } = require("../models");
+const { Category, Product, User, Order } = require("../models");
 
 const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
 
 // GET REQUESTS
 const getAdminDashboard = async (req, res) => {
-  const path = req.route.path;
-  res.render("admin/admin", { path });
+  try {
+    const path = req.route.path;
+    res.render("admin/admin", { path });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getUsers = async (req, res) => {
-  let perPage = 12;
-  let page = req.query.page || 1;
-
   try {
+    let perPage = 12;
+    let page = req.query.page || 1;
     const users = await User.aggregate([{ $sort: { createdAt: -1 } }])
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -34,10 +37,9 @@ const getUsers = async (req, res) => {
   }
 };
 const getProducts = async (req, res) => {
-  let perPage = 12;
-  let page = req.query.page || 1;
-
   try {
+    let perPage = 12;
+    let page = req.query.page || 1;
     const products = await Product.aggregate([{ $sort: { createdAt: -1 } }])
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -58,10 +60,9 @@ const getProducts = async (req, res) => {
   }
 };
 const getCategories = async (req, res) => {
-  let perPage = 12;
-  let page = req.query.page || 1;
-
   try {
+    let perPage = 12;
+    let page = req.query.page || 1;
     const categories = await Category.aggregate([{ $sort: { createdAt: -1 } }])
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -81,44 +82,105 @@ const getCategories = async (req, res) => {
     console.log(error);
   }
 };
+const getOrders = async (req, res) => {
+  try {
+    let perPage = 12;
+    let page = req.query.page || 1;
+    const orders = await Order.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await Order.count();
+    const pages = Math.ceil(count / perPage);
+
+    const path = req.route.path;
+    res.render("admin/orders", {
+      orders,
+      current: page,
+      pages,
+      path,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const getAddUser = async (req, res) => {
-  const path = req.route.path;
-  res.render("admin/addUser", { path });
+  try {
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/addUser", { path });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getAddProduct = async (req, res) => {
-  const categories = await Category.find({});
-  const path = req.route.path;
-  res.render("admin/addProduct", { sizes, categories, path });
+  try {
+    const categories = await Category.find({});
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/addProduct", { sizes, categories, path });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getEditProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  const categories = await Category.find({});
-  const path = req.route.path;
-  res.render("admin/editProduct", { product, sizes, categories, path });
+  try {
+    const product = await Product.findById(req.params.id);
+    const categories = await Category.find({});
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/editProduct", { product, sizes, categories, path });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getAddCategory = async (req, res) => {
-  const path = req.route.path;
-  res.render("admin/addCategory", { path });
+  try {
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/addCategory", { path });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getEditCategory = async (req, res) => {
-  const category = await Category.findById(req.params.id);
-  const path = req.route.path;
-  res.render("admin/editCategory", { category, path });
+  try {
+    const category = await Category.findById(req.params.id);
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/editCategory", { category, path });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getViewOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/viewOrder", { path, order });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getEditOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.render("admin/editOrder", { path, order });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // POST REQUESTS
 
 // HANDLE ADD ROUTES
 const handleAddUser = async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
-  const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phone: req.body.phone,
-    password: hashedPassword,
-  });
   try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      password: hashedPassword,
+    });
     await user.save();
     await req.flash("info", "New user has been added.");
     res.redirect("/admin/users");
@@ -128,46 +190,65 @@ const handleAddUser = async (req, res) => {
   }
 };
 const handleAddProduct = async (req, res) => {
-  const uploadedFiles = req.files;
-  const productImages = [];
-  for (const file of uploadedFiles) {
-    productImages.push({
-      image: file.buffer,
-      contentType: file.mimetype,
-    });
-  }
-  if (!uploadedFiles) {
-    res.status(400).send("No files were uploaded.");
-  } else {
-    const product = new Product({
-      productName: req.body.productName,
-      brand: req.body.brand,
-      description: req.body.description,
-      category: req.body.category,
-      stock: req.body.stock,
-      sizes: req.body.sizes,
-      color: req.body.color,
-      material: req.body.material,
-      regularPrice: req.body.regularPrice,
-      salePrice: req.body.salePrice,
-      productImages: productImages,
-    });
-    try {
-      product.save();
-      await req.flash("info", "New product has been added.");
-      res.redirect("/admin/products");
-    } catch (error) {
-      console.log(error);
+  try {
+    const uploadedFiles = req.files;
+    const productImages = [];
+    for (const file of uploadedFiles) {
+      productImages.push({
+        image: file.buffer,
+        contentType: file.mimetype,
+      });
     }
+    if (!uploadedFiles) {
+      const product = new Product({
+        productName: req.body.productName,
+        brand: req.body.brand,
+        description: req.body.description,
+        category: req.body.category,
+        stock: req.body.stock,
+        sizes: req.body.sizes,
+        color: req.body.color,
+        material: req.body.material,
+        regularPrice: req.body.regularPrice,
+        salePrice: req.body.salePrice,
+      });
+      await product.save();
+    } else {
+      const product = new Product({
+        productName: req.body.productName,
+        brand: req.body.brand,
+        description: req.body.description,
+        category: req.body.category,
+        stock: req.body.stock,
+        sizes: req.body.sizes,
+        color: req.body.color,
+        material: req.body.material,
+        regularPrice: req.body.regularPrice,
+        salePrice: req.body.salePrice,
+        productImages: productImages,
+      });
+      await product.save();
+    }
+    await req.flash("info", "New product has been added.");
+    res.redirect("/admin/products");
+  } catch (error) {
+    console.log(error);
   }
 };
 const handleAddCategory = async (req, res) => {
-  const category = new Category({
-    categoryName: req.body.categoryName.toLowerCase(),
-    active: true,
-  });
   try {
-    category.save();
+    var { categoryName } = req.body;
+    categoryName = categoryName.toLowerCase();
+    const existingCategory = await Category.findOne({ categoryName });
+    if (existingCategory) {
+      await req.flash("error", "Category already exist.");
+      return res.redirect("/admin/categories");
+    }
+    const category = new Category({
+      categoryName,
+      active: true,
+    });
+    await category.save();
     await req.flash("info", "New category has been added.");
     res.redirect("/admin/categories");
   } catch (error) {
@@ -177,22 +258,28 @@ const handleAddCategory = async (req, res) => {
 
 // HANDLE EDIT ROUTES
 const handleBlockAndUnblock = async (req, res) => {
-  const user = await User.findById(req.params.id);
-  user.blocked = !user.blocked;
-  user.save();
-  res.redirect("/admin/users");
+  try {
+    const user = await User.findById(req.params.id);
+    user.blocked = !user.blocked;
+    await user.save();
+    if (user.blocked) await req.flash("info", "A user has been blocked");
+    if (!user.blocked) await req.flash("info", "A user has been unblocked");
+    res.redirect("/admin/users");
+  } catch (error) {
+    console.log(error);
+  }
 };
 const handleEditProduct = async (req, res) => {
-  const uploadedFiles = req.files;
-  if (uploadedFiles.length) {
-    const productImages = [];
-    for (const file of uploadedFiles) {
-      productImages.push({
-        image: file.buffer,
-        contentType: file.mimetype,
-      });
-    }
-    try {
+  try {
+    const uploadedFiles = req.files;
+    if (uploadedFiles.length) {
+      const productImages = [];
+      for (const file of uploadedFiles) {
+        productImages.push({
+          image: file.buffer,
+          contentType: file.mimetype,
+        });
+      }
       await Product.findByIdAndUpdate(req.params.id, {
         productName: req.body.productName,
         brand: req.body.brand,
@@ -207,11 +294,7 @@ const handleEditProduct = async (req, res) => {
         productImages: productImages,
       });
       res.redirect(`/admin/products/edit/${req.params.id}`);
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    try {
+    } else {
       await Product.findByIdAndUpdate(req.params.id, {
         productName: req.body.productName,
         brand: req.body.brand,
@@ -225,12 +308,12 @@ const handleEditProduct = async (req, res) => {
         salePrice: req.body.salePrice,
       });
       res.redirect(`/admin/products/edit/${req.params.id}`);
-    } catch (error) {
-      console.log(error);
     }
+    const product = await Product.findById(req.params.id);
+    res.render("admin/editProduct", { product });
+  } catch (error) {
+    console.log(error);
   }
-  const product = await Product.findById(req.params.id);
-  res.render("admin/editProduct", { product });
 };
 const handleEditCategory = async (req, res) => {
   try {
@@ -238,6 +321,36 @@ const handleEditCategory = async (req, res) => {
       categoryName: req.body.categoryName.toLowerCase(),
     });
     res.redirect(`/admin/categories/edit/${req.params.id}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const handleEditOrder = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const orderId = req.params.id;
+    await Order.findByIdAndUpdate(orderId, {
+      status,
+    });
+    res.redirect(`/admin/orders/edit/${orderId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const handleCancelOrder = async (req, res) => {
+  try {
+    const source = req.query.source;
+    const orderId = req.params.id;
+    await Order.findByIdAndUpdate(orderId, {
+      status: "cancelled",
+    });
+    if (source == "orders") {
+      return res.redirect("/admin/orders");
+    } else if (source == "profile") {
+      return res.redirect("/user/profile?tab=orders");
+    }
+
+    res.redirect(`/admin/orders/edit/${orderId}`);
   } catch (error) {
     console.log(error);
   }
@@ -268,17 +381,22 @@ module.exports = {
   getUsers,
   getProducts,
   getCategories,
+  getOrders,
   getAddUser,
   getAddProduct,
   getAddCategory,
   getEditProduct,
   getEditCategory,
+  getViewOrder,
+  getEditOrder,
+  handleCancelOrder,
   handleAddUser,
   handleAddProduct,
   handleAddCategory,
   handleBlockAndUnblock,
   handleEditProduct,
   handleEditCategory,
+  handleEditOrder,
   handleDeleteProduct,
   handleDeleteCategory,
 };

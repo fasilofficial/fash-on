@@ -28,24 +28,30 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    addresses: {
-      type: Object,
-      fields: {
-        addressName: String,
-        name: String,
-        type: String,
-        city: String,
-        landmark: String,
-        state: String,
-        pincode: String,
-        phone: String,
-        altPhone: String,
+    addresses: [
+      {
+        type: new mongoose.Schema(
+          {
+            fullName: String,
+            addressType: String,
+            street: String,
+            city: String,
+            state: String,
+            pincode: String,
+            phone: String,
+            altPhone: String,
+          },
+          { timestamps: true }
+        ),
       },
-    },
+    ],
     cart: [
       {
         productId: String,
-        quantity: Number,
+        quantity: {
+          type: Number,
+          default: 1,
+        },
       },
     ],
     wishlist: [

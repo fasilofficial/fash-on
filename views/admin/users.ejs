@@ -4,7 +4,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <title>Fash on Dashboard</title>
+    <title>Fash on | Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -75,21 +75,36 @@
               <td><%= user.email %></td>
               <td><%= "+91" + user.phone %></td>
               <td class="text-end">
-                <form
-                  action="/admin/users/edit/<%= user._id %>?_method=PUT"
-                  method="POST"
-                >
-                  <% if (user.blocked) { %>
-                  <button type="submit" class="btn btn-success">Unblock</button>
+                <% if (user.blocked) { %>
+                  <button type="button" class="btn btn-sm btn-success-light" data-bs-toggle="modal" data-bs-target="#exampleModal">Unblock</button>
                   <% } else { %>
-                  <button type="submit" class="btn btn-danger">Block</button>
+                  <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Block</button>
                   <% } %>
-                </form>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+
+                </td>
+              </tr>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Changes</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     You're about to <%= user.blocked ? 'unblock' : 'block'  %> the user. Do you want to continue?
+                    </div>
+                    <div class="modal-footer">
+                      <form action="/admin/users/edit/<%= user._id %>?_method=PUT" method="POST">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Yes, <%= user.blocked ? 'Unblock' : 'Block' %></button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+            </tbody>
+          </table>
         <% if (users.length> 0) { %>
         <div class="pagination-area mt-30 mb-50">
           <nav aria-label="Page navigation">
@@ -121,7 +136,7 @@
               <li class="page-item disabled">
                 <a href="#" class="page-link">...</a>
               </li>
-              <% } %> <% } %> <% if (current==pages) { %>
+              <% }  } if (current==pages) { %>
               <li class="page-item disabled active">
                 <a href="#" class="page-link">Last</a>
               </li>
@@ -135,6 +150,7 @@
         </div>
         <% } %>
       </section>
+      <%- include('../partials/admin-footer.ejs') %>
     </main>
     <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>

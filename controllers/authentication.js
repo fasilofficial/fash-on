@@ -1,35 +1,51 @@
 const bcrypt = require("bcrypt");
 
-const { setUser, setAdmin } = require("../service/auth");
+const { sendGeneratedOtp, setUser, setAdmin } = require("../service");
 
 const { Admin, User } = require("../models");
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-let generatedOtp, user, admin;
-
-const client = require("twilio")(accountSid, authToken);
+let user, admin;
 
 // GET REQUESTS
 const getUserSignup = async (req, res) => {
-  const error = "";
-  res.render("auth/signup", { error });
+  try {
+    const error = "";
+    res.render("auth/signup", { error });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getUserLogin = async (req, res) => {
-  const error = "";
-  res.render("auth/login", { error });
+  try {
+    const error = "";
+    res.render("auth/login", { error });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getUserLoginVerify = async (req, res) => {
-  const error = "";
-  res.render("auth/login-verify", { error });
+  try {
+    const error = "";
+    res.render("auth/login-verify", { error });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getAdminLogin = async (req, res) => {
-  const error = "";
-  res.render("auth/admin-login", { error });
+  try {
+    const error = "";
+    res.render("auth/admin-login", { error });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getAdminLoginVerify = async (req, res) => {
-  const error = "";
-  res.render("auth/admin-login-verify", { error });
+  try {
+    const error = "";
+    res.render("auth/admin-login-verify", { error });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // HANDLE USER SIGNUP, LOGIN, LOGIN OTP, AND LOGOUT
@@ -51,7 +67,7 @@ const handleUserSignup = async (req, res) => {
       password: hashedPassword,
     });
 
-    user.save();
+    await user.save();
     res.redirect("/login");
   } catch (error) {
     console.log(error);
@@ -68,7 +84,7 @@ const handleUserSignup = async (req, res) => {
 //       });
 //     }
 
-//     user.save();
+//     await user.save();
 //     res.redirect("/login");
 //   } catch (error) {
 //     console.log(error);
@@ -93,20 +109,9 @@ const handleUserLogin = async (req, res) => {
           error: "Blocked: You can't login",
         });
       } else {
-        generatedOtp = "";
-        let digits = "0123456789";
-        for (let i = 0; i < 4; i++) {
-          generatedOtp += digits[Math.floor(Math.random() * 10)];
-        }
-
-        await client.messages
-          .create({
-            from: "+18564520062",
-            to: "+91" + user.phone,
-            body: `Your OTP is: ${generatedOtp}. Please use this code to verify your account.`,
-          })
-          .then(() => res.redirect("/login/verify"))
-          .done();
+        await sendGeneratedOtp(user, res);
+        res.cookie("_id", user._id);
+        return res.render("auth/login-verify");
       }
     } else {
       return res.render("auth/login", { email, error: "Invalid password" });
@@ -118,16 +123,17 @@ const handleUserLogin = async (req, res) => {
 const handleUserLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
+    const generatedOtp = req.cookies.generatedOtp;
     const isMatch = enteredOtp === generatedOtp;
     if (!isMatch) {
       return res.render("auth/login-verify", {
         error: "Entered OTP is incorrect, try again",
       });
     }
-
     const token = setUser(user);
     res.cookie("userToken", token);
-    res.cookie('userId', user._id);
+    res.cookie("generatedOtp", "", { maxAge: 1 });
+    res.cookie("_id", "", { maxAge: 1 });
     res.redirect("/user");
   } catch (error) {
     console.log(error);
@@ -135,9 +141,13 @@ const handleUserLoginOtpVerification = async (req, res) => {
   }
 };
 const handleUserLogout = async (req, res) => {
-  res.cookie("userToken", "", { maxAge: 1 });
-  res.cookie("userId", "", { maxAge: 1 });
-  res.redirect("/");
+  try {
+    res.cookie("userToken", "", { maxAge: 1 });
+    res.cookie("userId", "", { maxAge: 1 });
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // HANDLE ADMIN LOGIN, LOGIN OTP, AND LOGOUT
@@ -153,20 +163,9 @@ const handleAdminLogin = async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, admin.password);
     if (isMatch) {
-      generatedOtp = "";
-      let digits = "0123456789";
-      for (let i = 0; i < 4; i++) {
-        generatedOtp += digits[Math.floor(Math.random() * 10)];
-      }
-
-      await client.messages
-        .create({
-          from: "+18564520062",
-          to: "+91" + admin.phone,
-          body: `Your OTP is: ${generatedOtp}. Please use this code to verify your account.`,
-        })
-        .then(() => res.redirect("/login/admin/verify"))
-        .done();
+      await sendGeneratedOtp(admin, res);
+      res.cookie("_id", admin._id);
+      res.redirect("/login/admin/verify");
     } else {
       return res.render("auth/admin-login", {
         email,
@@ -180,6 +179,7 @@ const handleAdminLogin = async (req, res) => {
 const handleAdminLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
+    const generatedOtp = req.cookies.generatedOtp;
     const isMatch = enteredOtp === generatedOtp;
     if (!isMatch) {
       return res.render("auth/admin-login-verify", {
@@ -188,6 +188,8 @@ const handleAdminLoginOtpVerification = async (req, res) => {
     }
     const token = setAdmin(admin);
     res.cookie("adminToken", token);
+    res.cookie("generatedOtp", "", { maxAge: 1 });
+    res.cookie("_id", "", { maxAge: 1 });
     return res.redirect("/admin");
   } catch (error) {
     console.log(error);
@@ -195,13 +197,36 @@ const handleAdminLoginOtpVerification = async (req, res) => {
   }
 };
 const handleAdminLogout = async (req, res) => {
-  res.cookie("adminToken", "", { maxAge: 1 });
-  res.redirect("/login/admin");
+  try {
+    res.cookie("adminToken", "", { maxAge: 1 });
+    res.redirect("/login/admin");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// HANDLE RESEND OTP
+const handleResendOtp = async (req, res) => {
+  try {
+    res.cookie("generatedOtp", "", { maxAge: 1 });
+    const user = await User.findById(req.cookies._id);
+    if (user) {
+      await sendGeneratedOtp(user, res);
+    } else {
+      const admin = await Admin.findById(req.cookies._id);
+      await sendGeneratedOtp(admin, res);
+      return res.redirect("/login/admin/verify");
+    }
+    return res.redirect("/login/verify");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
   getUserSignup,
   getUserLogin,
+  handleResendOtp,
   getUserLoginVerify,
   getAdminLogin,
   getAdminLoginVerify,

@@ -7,9 +7,19 @@ const {
   getProduct,
   getWishlist,
   getCart,
+  getCheckout,
   getProfile,
-  getAbout,
-  getContact,
+  getEditProfile,
+  handlePlaceOrder,
+  handleEditProfile,
+  handleChangePassword,
+  handleAddAddress,
+  handleAddToWishlist,
+  handleAddToCart,
+  handleDeleteAddress,
+  handleDeleteFromWishlist,
+  handleDeleteFromCart,
+  get404,
 } = require("../controllers");
 
 router.get("/", getHome);
@@ -18,59 +28,21 @@ router.get("/products/:id", getProduct);
 router.get("/wishlist", getWishlist);
 router.get("/cart", getCart);
 router.get("/profile", getProfile);
+router.get("/editProfile", getEditProfile);
+router.get("/checkout", getCheckout);
 
+router.post("/addAddress", handleAddAddress);
+router.post("/cart/add/:id", handleAddToCart);
+router.get("/wishlist/add/:id", handleAddToWishlist);
+router.get("/orderPlaced/:id", handlePlaceOrder);
 
-// router.get("/", async (req, res) => {
-//   const products = await Product.find({});
-//   res.render("index", { products });
-// });
+router.put("/editProfile", handleEditProfile);
+router.put("/changePassword", handleChangePassword);
 
-// // ALL PRODUCTS
-// router.get("/products", async (req, res) => {
-//   const products = await Product.find({});
-//   res.render("products", { products });
-// });
-// // SINGLE PRODUCT
-// router.get("/products/:id", async (req, res) => {
-//   const product = await Product.findById(req.params.id);
-//   const relatedProducts = await Product.find({
-//     $and: [{ _id: { $ne: product._id } }, { category: product.category }],
-//   }).limit(4);
-//   res.render("product", { product, relatedProducts, sizes });
-// });
-// // WISHLIST
-// router.get("/wishlist", (req, res) => {
-//   res.render("wishlist");
-// });
-// // CART
-// router.get("/cart", (req, res) => {
-//   res.render("cart");
-// });
-// // PROFILE
-// router.get("/profile", (req, res) => {
-//   res.render("profile");
-// });
-// // SHOP
-// router.get("/shop", (req, res) => {
-//   res.render("shop");
-// });
-// // ORDERS
-// router.get("/orders", (req, res) => {
-//   res.render("orders");
-// });
+router.get("/cart/delete/:id", handleDeleteFromCart);
+router.get('/wishlist/delete/:id', handleDeleteFromWishlist)
+router.get("/deleteAddress/:id", handleDeleteAddress);
 
-// // SINGLE PRODUCT
-// router.get("/shop/:id", (req, res) => {
-//   res.render("product");
-// });
-
-// // ABOUT
-// router.get("/about", (req, res) => {
-//   res.render("about");
-// });
-// // CONTACT
-// router.get("/contact", (req, res) => {
-//   res.render("contact");
-// });
+router.get('*', get404)
 
 module.exports = router;

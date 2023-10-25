@@ -4,7 +4,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <title>Fash on Dashboard</title>
+    <title>Fash on | Dashboard</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,19 +40,19 @@
           </div>
         </div>
         <% if (locals.messages.info) { %>
-          <div
-            class="alert alert-success alert-dismissible fade show"
-            role="alert"
-          >
-            <%= messages.info %>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
-          </div>
-          <% } %>
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          <%= messages.info %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        <% } %>
         <table class="table table-responsive table-striped">
           <thead>
             <tr>
@@ -73,7 +73,13 @@
             <tr>
               <!-- <th scope="row"><%= //id + 1 %></th> -->
               <td class="align-middle"><%= product.productName %></td>
-              <td class="align-middle"><img style="width: 80px;" src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>" alt="product image"></td>
+              <td class="align-middle">
+                <img
+                  style="width: 80px"
+                  src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
+                  alt="product image"
+                />
+              </td>
               <td class="align-middle"><%= product.description %></td>
               <td class="align-middle">
                 <%= product?.category[0].toUpperCase() +
@@ -83,22 +89,63 @@
               <td class="align-middle">Rs.<%= product.regularPrice %></td>
               <td class="align-middle">Rs.<%= product.salePrice %></td>
               <td class="align-middle"><%= product.stock %></td>
-              <td class="text-end align-middle" >
+              <td class="text-end align-middle">
                 <div class="d-flex flex-row justify-content-end gap-2">
                   <a
-                    class="btn btn-warning"
+                    class="btn btn-sm btn-warning"
                     href="/admin/products/edit/<%= product._id %>"
                     >Edit</a
                   >
-                  <form
-                    action="/admin/products/edit/<%= product._id %>?_method=DELETE"
-                    method="POST"
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
                   >
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
+                    Delete
+                  </button>
                 </div>
               </td>
             </tr>
+
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Confirm Deletion
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    You're about to delete the product. Do you want to continue?
+                  </div>
+                  <div class="modal-footer">
+
+                    <form
+                      action="/admin/products/edit/<%= product._id %>?_method=DELETE"
+                      method="POST"
+                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             <% }) %>
           </tbody>
         </table>
@@ -148,7 +195,7 @@
         </div>
         <% } %>
       </section>
-      <!-- content-main end// -->
+      <%- include('../partials/admin-footer.ejs') %>
     </main>
     <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>

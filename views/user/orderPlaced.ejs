@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Fash on</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/assets/imgs/theme/favicon.svg"
+    />
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/maind134.css?v=3.4" />
+  </head>
+
+  <body>
+    <%- include('../partials/loading.ejs') %> <%-
+    include('../partials/header.ejs') %>
+    <main class="main">
+      <!-- <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/user" rel="nofollow">Home</a>
+                    <span></span>Cart
+                </div>
+            </div>
+        </div> -->
+      <section class="mt-50 mb-50">
+        <div class="container">
+          <div
+            class="row w-50 p-sm-5 p-lg-65 mt-50 m-auto rounded-2 text-center"
+            style="background-color: #b2d8d8"
+          >
+            <h3 class="mb-10">Order Placed Successfully</h3>
+            <p>
+              Your have placed your order successfully. Check your
+              <a href="/user/profile">profile </a> to see the order status
+            </p>
+          </div>
+          <div
+            class="row w-50 p-sm-5 p-lg-65 mt-50 mb-50 mb m-auto rounded-2"
+            
+          >
+            <h5 class="mb-10">Delivering to</h5>
+            <table class="table mb-20 text-start ">
+                <tbody>
+                    <tr>
+                        <th>Street</th>
+                        <td><%= address.street %></td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td><%= address.city %></td>
+                    </tr>
+                    <tr>
+                        <th>State</th>
+                        <td><%= address.state %></td>
+                    </tr>
+                    <tr>
+                        <th>Pincode</th>
+                        <td><%= address.pincode %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+              <div class="col text-center"><a class="btn" href="/user/profile?tab=orders">Order Details</a></div>
+              <div class="col text-center"><a class="btn" href="/user/">Continue Shopping</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+    <!-- Vendor JS-->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/plugins/slick.js"></script>
+    <script src="/assets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/assets/js/plugins/wow.js"></script>
+    <script src="/assets/js/plugins/jquery-ui.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/assets/js/plugins/magnific-popup.js"></script>
+    <script src="/assets/js/plugins/select2.min.js"></script>
+    <script src="/assets/js/plugins/waypoints.js"></script>
+    <script src="/assets/js/plugins/counterup.js"></script>
+    <script src="/assets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/assets/js/plugins/images-loaded.js"></script>
+    <script src="/assets/js/plugins/isotope.js"></script>
+    <script src="/assets/js/plugins/scrollup.js"></script>
+    <script src="/assets/js/plugins/jquery.vticker-min.js"></script>
+    <!-- Template  JS -->
+    <script src="/assets/js/maind134.js?v=3.4"></script>
+    <script src="/assets/js/shopd134.js?v=3.4"></script>
+  </body>
+
+  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
+</html>

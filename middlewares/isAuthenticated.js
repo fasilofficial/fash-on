@@ -1,4 +1,4 @@
-const { getUser, getAdmin } = require("../service/auth");
+const { getUser, getAdmin } = require("../service");
 
 const isUserAuthenticated = async (req, res, next) => {
   const userToken = req.cookies.userToken;
