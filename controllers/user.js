@@ -12,9 +12,9 @@ const getHome = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
-    res.render("user/index", { products, path, userCart, userWishlist }); 
+    res.render("user/index", { products, path, userCart, userWishlist });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getProducts = async (req, res) => {
@@ -62,7 +62,7 @@ const getProduct = async (req, res) => {
       userWishlist,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getWishlist = async (req, res) => {
@@ -73,7 +73,7 @@ const getWishlist = async (req, res) => {
     const path = req.route.path;
     res.render("user/wishlist", { path, user, userWishlist, userCart });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getCart = async (req, res) => {
@@ -84,7 +84,7 @@ const getCart = async (req, res) => {
     const user = await User.findById(req.user._id);
     res.render("user/cart", { path, user, userCart, userWishlist });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getCheckout = async (req, res) => {
@@ -100,7 +100,7 @@ const getCheckout = async (req, res) => {
     );
     res.render("user/checkout", { path, user, userCart, userWishlist, total });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getProfile = async (req, res) => {
@@ -108,7 +108,7 @@ const getProfile = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userOrders = await Order.find({ customerId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
-  
+
     const path = req.route.path;
     const tab = req.query.tab;
     const user = await User.findById(req.user._id);
@@ -121,7 +121,7 @@ const getProfile = async (req, res) => {
       userWishlist,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getEditProfile = async (req, res) => {
@@ -130,7 +130,7 @@ const getEditProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
     res.render("user/profile", { user, path, tab: "details" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -163,11 +163,13 @@ const handleAddAddress = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userOrders = await Order.find({ customerId: req.user._id });
     const path = req.route.path;
-    const total = userCart.cartItems.reduce(
-      (currentTotal, cartItem) =>
-        currentTotal + cartItem.salePrice * cartItem.quantity,
-      0
-    );
+    if(userCart) {
+      const total = userCart.cartItems.reduce(
+        (currentTotal, cartItem) =>
+          currentTotal + cartItem.salePrice * cartItem.quantity,
+        0
+      );
+    }
     if (sourceUrl == "checkout") {
       return res.render("user/checkout", { path, user, userCart, total });
     }
@@ -270,7 +272,7 @@ const handleAddToCart = async (req, res) => {
     const { productName, salePrice, productImages } = await Product.findById(
       productId
     );
-    const { quantity } = req.body;
+    const { quantity, size } = req.body;
     const userCart = await Cart.findOne({ userId: req.user._id });
     if (!userCart) {
       const newItem = new Cart({
@@ -281,6 +283,7 @@ const handleAddToCart = async (req, res) => {
             productName,
             salePrice,
             productImages,
+            size,
             quantity: Number(quantity) || 1,
           },
         ],
@@ -296,6 +299,7 @@ const handleAddToCart = async (req, res) => {
           productName,
           salePrice,
           productImages,
+          size,
           quantity: Number(quantity) || 1,
         });
       } else {
@@ -304,13 +308,13 @@ const handleAddToCart = async (req, res) => {
       await userCart.save();
       await Wishlist.updateOne(
         { userId: req.user._id },
-        { $pull: { wishlistItems: { productId }} }
+        { $pull: { wishlistItems: { productId } } }
       );
     }
     if (quantity) {
       return res.redirect("/user/products/" + req.params.id);
     } else if (source == "wishlist") {
-      return res.redirect('/user/wishlist');
+      return res.redirect("/user/wishlist");
     } else {
       return res.redirect("/user");
     }
@@ -335,10 +339,7 @@ const handleDeleteFromCart = async (req, res) => {
   try {
     const productId = req.params.id;
     const userId = req.user._id;
-    await Cart.updateOne(
-      { userId },
-      { $pull: { cartItems: { productId } } }
-    );
+    await Cart.updateOne({ userId }, { $pull: { cartItems: { productId } } });
     res.redirect("/user/cart");
   } catch (error) {
     console.log(error);
@@ -365,7 +366,7 @@ const handlePlaceOrder = async (req, res) => {
     const user = await User.findById(req.user._id);
     const { email } = user;
     const { fullName, street, city, state, pincode, phone, altPhone } =
-    user.addresses.id(addressId);
+      user.addresses.id(addressId);
     const userCart = await Cart.findOne({ userId: req.user._id });
     const totalAmount = userCart.cartItems.reduce(
       (currentTotal, cartItem) =>
@@ -392,7 +393,7 @@ const handlePlaceOrder = async (req, res) => {
     };
 
     const products = [];
-    userCart.cartItems.forEach((cartItem) => {
+    userCart.cartItems.forEach(async (cartItem) => {
       const { productName, productId, salePrice, quantity, productImages } =
         cartItem;
       products.push({
@@ -402,6 +403,7 @@ const handlePlaceOrder = async (req, res) => {
         salePrice,
         productImages,
       });
+      await Product.findByIdAndUpdate(productId, { $inc: { stock: -quantity } });
     });
     newOrder.products = products;
     await Order.insertMany(newOrder);

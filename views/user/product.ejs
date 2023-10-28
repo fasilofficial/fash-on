@@ -135,9 +135,20 @@
                                 </a></li>
                               <% }) %>
                           </ul>
+                          
                         </div>
                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                         <form action="/user/cart/add/<%= product._id %>" method="POST">
+                          <div class="form-group">
+                            <div class="col-3">
+                              <select class="form-select" name="size" id="size">
+                                <option value="">Select size</option>
+                                <% product.sizes.forEach(size => { %>
+                                 <option value="<%= size %>" class='text-uppercase'><%= size %></option>
+                                <% }) %>
+                              </select>
+                            </div>
+                          </div>
                           <div class="form-group row">
                             <div class="col-2">
                               <input class="form-control" type="number" name="quantity" min="1" value="1" id="quantity">

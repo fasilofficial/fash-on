@@ -43,6 +43,7 @@
                                             <th scope="col">Product Image</th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Price</th>
+                                            <th scope="col">Size</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Total Amount</th>
                                             <th scope="col">Remove</th>
@@ -58,6 +59,7 @@
                                                             <h5 class="product-name"><a href="shop-product-right.html"><%= cartItem.productName %></a></h5>
                                                         </td>
                                                         <td class="price" data-title="Price"><span>₹<%= cartItem.salePrice %></span></td>
+                                                        <td class="size text-uppercase" data-title="Size"><span><%= cartItem.size %></span></td>
                                                         <td class="text-center" data-title="Stock"><%= cartItem.quantity %></td>
                                                         <td class="text-right" data-title="Cart">
                                                             <span>₹<%= cartItem.quantity * cartItem.salePrice %> </span>
