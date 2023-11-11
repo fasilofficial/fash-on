@@ -18,5 +18,18 @@ Fash-on is a e-commerce web application developed using Node.js, Express.js, and
 - Proceed to checkout (Add address)
 - Place order with Cash on Delivery(Address selection)
 - Show user details, addresses, orders. Add address, edit profile, cancel orders, change password
+### Third - 06/11/2023
+- Coupon, offer management
+
+- Online payment
+- Coupon, offer management
+- Order cancel and return
+- Search, category filter
+- Wishlist
+- User wallet
+### Fourth - 11/11/2023
+- Admin dashboard
+- Sales report with date filter
+- Banner management
 
 ## Project status - Ongoing
