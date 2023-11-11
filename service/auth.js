@@ -20,7 +20,6 @@ const getUser = (token) => {
     return null;
   }
 };
-
 const setAdmin = (admin) => {
   return jwt.sign(
     {

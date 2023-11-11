@@ -1,12 +1,17 @@
-const { Product } = require("../models");
+const { Product, Banner, Category } = require("../models");
 
 const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
 
 const getRoot = async (req, res) => {
   try {
     const products = await Product.find({}).limit(12);
+    const banners = await Banner.find({});
     const path = req.route.path;
-    res.render("misc/home", { products, path });
+    res.render("misc/home", {
+      products,
+      path,
+      banners,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -15,21 +20,39 @@ const getStaticProducts = async (req, res) => {
   try {
     let perPage = 20;
     let page = req.query.page || 1;
-    const products = await Product.aggregate([{ $sort: { createdAt: -1 } }])
-      .skip(perPage * page - perPage)
-      .limit(perPage)
-      .exec();
-
+    const categories = await Category.find({});
     const count = await Product.count();
     const pages = Math.ceil(count / perPage);
-
     const path = req.route.path;
-    res.render("misc/products", {
-      products,
-      current: page,
-      pages,
-      path,
-    });
+
+    const category = req.query.category;
+    if (category) {
+      const products = await Product.find({ category })
+        .sort({ createdAt: -1 })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
+      return res.render("misc/products", {
+        products,
+        current: page,
+        pages,
+        path,
+        categories,
+      });
+    } else {
+      const products = await Product.find({})
+        .sort({ createdAt: -1 })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
+      res.render("misc/products", {
+        products,
+        current: page,
+        pages,
+        path,
+        categories,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -51,7 +74,7 @@ const getAbout = async (req, res) => {
     const path = req.route.path;
     res.render("misc/about", { path });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const getContact = async (req, res) => {
@@ -59,7 +82,7 @@ const getContact = async (req, res) => {
     const path = req.route.path;
     res.render("misc/contact", { path });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 const get404 = (req, res) => {
@@ -67,7 +90,7 @@ const get404 = (req, res) => {
     const userToken = req.cookies.userToken;
     res.render("misc/404", { userToken });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 

@@ -1,0 +1,82 @@
+<section class="content-main">
+  <div class="content-header">
+    <h2 class="content-title">SEO Settings</h2>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row gx-5">
+        <div class="col">
+          <section class="content-body p-xl-4">
+            <form action="/admin/seo/edit?_method=PUT" method="POST">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="row gx-3">
+                    <div class="col-6 mb-3">
+                      <label for="userTitle" class="form-label">User-side Title</label>
+                      <input id="userTitle" name="userTitle" class="form-control" type="text"
+                        value="<%= seo.userTitle %>" />
+                    </div>
+
+                    <div class="col-6 mb-3">
+                      <label for="adminTitle" class="form-label">Admin-side Title</label>
+                      <input id="adminTitle" name="adminTitle" class="form-control" type="text"
+                        value="<%= seo.adminTitle %>" />
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                      <label for="userDescription" class="form-label">User-side Description</label>
+                      <textarea id="userDescription" name="userDescription" class="form-control" value="<%= seo.userDescription %>"><%= seo.userDescription %></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- row.// -->
+              <br />
+              <button class="btn btn-sm btn-primary" type="submit">
+                Save changes
+              </button>
+            </form>
+            <!-- <hr class="my-5" />
+          <div class="row" style="max-width: 920px">
+            <div class="col-md">
+              <article class="box mb-3 bg-light">
+                <a
+                  class="btn float-end btn-light btn-sm rounded font-md"
+                  href="#"
+                  >Change</a
+                >
+                <h6>Password</h6>
+                <small class="text-muted d-block" style="width: 70%"
+                  >You can reset or change your password by clicking
+                  here</small
+                >
+              </article>
+            </div>
+          
+            <div class="col-md">
+              <article class="box mb-3 bg-light">
+                <a
+                  class="btn float-end btn-light rounded btn-sm font-md"
+                  href="#"
+                  >Deactivate</a
+                >
+                <h6>Remove account</h6>
+                <small class="text-muted d-block" style="width: 70%"
+                  >Once you delete your account, there is no going
+                  back.</small
+                >
+              </article>
+            </div>
+        
+          </div> -->
+            <!-- row.// -->
+          </section>
+          <!-- content-body .// -->
+        </div>
+        <!-- col.// -->
+      </div>
+      <!-- row.// -->
+    </div>
+  </div>
+  <!-- card end// -->
+</section>

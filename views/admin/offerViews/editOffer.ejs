@@ -1,0 +1,52 @@
+<div class="content-main">
+  <div class="content-header">
+    <h1 class="h2">Edit Offer</h1>
+  </div>
+  <div class="container">
+    <form
+      action="/admin/offers/edit/<%= offer._id %>?_method=PUT"
+      method="POST"
+    >
+      <div class="row form-group mb-4">
+        <div class="col-6">
+          <label for="offerName">Offer Name:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="offerName"
+            value="<%= offer.offerName.toUpperCase() %>"
+            id="offerName"
+            required
+          />
+        </div>
+        <div class="col-6">
+          <label for="offerType">Offer Type:</label>
+          <select class="form-select" name="offerType" id="offerType" required>
+            <option value="<%= offer.offerType %>" class="text-capitalize">
+              <%= offer.offerType %>
+            </option>
+            <option value="referral">Referral</option>
+            <option value="category">Category</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <div class="col-6">
+          <label for="offerAmount">Offer Amount:</label>
+          <input
+            class="form-control"
+            type="number"
+            name="offerAmount"
+            value="<%= offer.offerAmount %>"
+            id="offerAmount"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-secondary btn-sm" href="/admin/offers">Back</a>
+      </div>
+    </form>
+  </div>
+</div>

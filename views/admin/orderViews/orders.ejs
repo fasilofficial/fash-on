@@ -1,0 +1,152 @@
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Orders List</h2>
+      <p>Browse and Manage the orders</p>
+    </div>
+  </div>
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Order Id</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Customer Email</th>
+        <th scope="col">Order Status</th>
+        <th scope="col">Order Date</th>
+        <th scope="col">Total Amount</th>
+        <th scope="col">Actions</th>
+        <th scope="col" class="text-end">Cancel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach((order, id) => { %>
+      <tr>
+        <td><%= order._id.toString().slice(0, 6) + "..." %></td>
+        <td><%= order.customerName %></td>
+        <td><%= order.customerEmail %></td>
+        <td>
+          <span
+            class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' : order.status == 'cancelled' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : order.status == 'failed' ? 'alert-danger text-danger' : 'alert-primary' %>"
+            ><%= order.status %></span
+          >
+        </td>
+        <td><%= moment(order.createdAt).format("DD/MM/YYYY"); %></td>
+        <td>₹<%= order.totalAmount %></td>
+        <td>
+          <a
+            href="/admin/orders/view/<%= order._id %>"
+            class="btn-sm btn-success-light"
+            >View</a
+          >
+          <a
+            href="/admin/orders/edit/<%= order._id %>"
+            class="btn-sm btn-warning"
+            >Edit</a
+          >
+        </td>
+        <td class="text-end">
+          <% if (order.status != 'delivered' && order.status != 'cancelled' &&
+          order.status != 'returned') { %>
+          <button
+            class="btn btn-sm btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal-<%= id %>"
+          >
+            Cancel
+          </button>
+          <% } %>
+        </td>
+      </tr>
+
+      <div
+        class="modal fade"
+        id="exampleModal-<%= id %>"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Confirm Changes
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              You're about to cancel an order. Do you want to continue?
+            </div>
+            <div class="modal-footer">
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <a
+                  class="btn btn-danger"
+                  href="/admin/orders/cancel/<%= order._id %>?source=orders"
+                  >Cancel</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% }) %>
+    </tbody>
+  </table>
+
+  <% if (orders.length> 0) { %>
+  <div class="pagination-area mt-30 mb-50">
+    <nav aria-label="Page navigation">
+      <!-- <nav aria-label="Pagination"> -->
+      <ul class="pagination justify-content-center mt-5">
+        <% if (current==1) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">First</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=1" class="page-link">First</a>
+        </li>
+        <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %> <%
+        if(i !==1) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) { %> <%
+        if (i==current) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link"> <%= i %> </a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=<%= i %>" class="page-link"> <%= i %> </a>
+        </li>
+        <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% } %> <% if (current==pages) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">Last</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=<%= pages %>" class="page-link">Last</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+  <% } %>
+</section>

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const orderSchema = new mongoose.Schema(
   {
     customerId: {
@@ -56,12 +57,18 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: "cash on delivery",
     },
+    order_id: {
+      type: String,
+    },
+    payment_id: {
+      type: String,
+    },
     status: {
       type: String,
       required: true,
       default: "pending",
     },
-    deliveredOn: {
+    deliveredAt: {
       type: Date,
     },
     products: [
@@ -71,6 +78,10 @@ const orderSchema = new mongoose.Schema(
             type: String,
           },
           productName: {
+            type: String,
+            required: true,
+          },
+          category: {
             type: String,
             required: true,
           },

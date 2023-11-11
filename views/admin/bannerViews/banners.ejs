@@ -1,0 +1,114 @@
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Banners List</h2>
+      <p>Browse and Manage the banners</p>
+    </div>
+    <div>
+      <a href="/admin/banners/add" class="btn btn-primary btn-sm rounded"
+        >Add banner</a
+      >
+    </div>
+  </div>
+  <% if (locals.messages.info) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= messages.info %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %> <% if (locals.messages.error) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= messages.error %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %>
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Banner Title</th>
+        <th scope="col">Banner Subtitle</th>
+        <th scope="col">Banner Type</th>
+        <th scope="col" class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% banners.forEach((banner, id) => { %>
+      <tr>
+        <th scope="row"><%= id + 1 %></th>
+        <td><%= banner.title %></td>
+        <td><%= banner.subtitle %></td>
+        <td class="text-capitalize"><%= banner.type %></td>
+        <td class="text-end">
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <a
+              class="btn btn-sm btn-warning"
+              href="/admin/banners/edit/<%= banner._id %>"
+              >Edit</a
+            >
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal-<%= id %>"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <div
+        class="modal fade"
+        id="exampleModal-<%= id %>"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Modal title
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              You're about to delete the banner. Do you want to continue?
+            </div>
+            <div class="modal-footer">
+              <form
+                action="/admin/banners/edit/<%= banner._id %>?_method=DELETE"
+                method="POST"
+              >
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </tbody>
+  </table>
+</section>

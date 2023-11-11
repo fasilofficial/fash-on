@@ -1,50 +1,85 @@
 <aside class="navbar-aside" id="offcanvas_aside">
   <div class="aside-top">
     <a href="/admin" class="brand-wrap">
-      <img
-        src="/assets/imgs/theme/logo.svg"
-        class="logo"
-        alt="Evara Dashboard"
-      />
+      <img src="/assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard" />
     </a>
     <div>
-      <button onclick="document.body.classList.toggle('aside-mini')" class="btn btn-icon btn-aside-minimize">
+      <button class="btn btn-icon btn-aside-minimize">
         <i class="text-muted material-icons md-menu_open"></i>
       </button>
     </div>
   </div>
   <nav>
     <ul class="menu-aside">
-      <li class="menu-item <%= path == '/' ? 'active' : '' %>">
+      <li class="menu-item <%= locals?.path == '/' ? 'active' : '' %>">
         <a class="menu-link" href="/admin">
           <i class="icon material-icons md-home"></i>
           <span class="text">Dashboard</span>
         </a>
       </li>
-      <li class="menu-item <%= path == '/products' ? 'active' : '' %>">
+      <li class="menu-item <%= locals?.path == '/products' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/products">
           <i class="icon material-icons md-shopping_bag"></i>
           <span class="text">Products</span>
         </a>
       </li>
-      <li class="menu-item <%= path == '/users' ? 'active' : '' %>">
+      <li class="menu-item <%= locals?.path == '/users' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/users">
           <i class="icon material-icons md-people"></i>
           <span class="text">Users</span>
         </a>
       </li>
-      <li class="menu-item <%= path == '/categories' ? 'active' : '' %>">
+      <li class="menu-item <%= locals?.path == '/categories' ? 'active' : '' %>">
         <a class="menu-link" href="/admin/categories">
           <i class="icon material-icons md-category"></i>
           <span class="text">Categories</span>
         </a>
       </li>
-      <li class="menu-item <%= path == '/orders' ? 'active' : '' %>">
-          <a class="menu-link" href="/admin/orders">
-            <i class="icon material-icons md-shopping_cart"></i>
-            <span class="text">Orders</span>
-          </a>
-        </li>
+      <li class="menu-item <%= locals?.path == '/orders' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/orders">
+          <i class="icon material-icons md-shopping_cart"></i>
+          <span class="text">Orders</span>
+        </a>
+      </li>
+      <li class="menu-item <%= locals?.path == '/coupons' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/coupons">
+          <i class="icon material-icons md-more"></i>
+          <span class="text">Coupons</span>
+        </a>
+      </li>
+      <li class="menu-item <%= locals?.path == '/offers' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/offers">
+          <i class="icon material-icons md-local_offer"></i>
+          <span class="text">Offers</span>
+        </a>
+      </li>
+      <li class="menu-item <%= locals?.path == '/banners' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/banners">
+          <i class="icon material-icons md-ad_units"></i>
+          <span class="text">Banners</span>
+        </a>
+      </li>
+      <li class="menu-item <%= locals?.path == '/sales' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/sales">
+          <i class="icon material-icons md-receipt"></i>
+          <span class="text">Sales</span>
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <ul class="menu-aside">
+      <li class="menu-item <%= locals?.path == '/profile' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/profile">
+          <i class="icon material-icons md-perm_identity"></i>
+          <span class="text">Profile</span>
+        </a>
+      </li>
+      <li class="menu-item <%= locals?.path == '/settings' ? 'active' : '' %>">
+        <a class="menu-link" href="/admin/settings">
+          <i class="icon material-icons md-settings"></i>
+          <span class="text">Settings</span>
+        </a>
+      </li>
     </ul>
   </nav>
 </aside>

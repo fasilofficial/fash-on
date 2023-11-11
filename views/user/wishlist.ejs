@@ -1,116 +1,65 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:05 GMT -->
-  <head>
-    <meta charset="utf-8" />
-    <title>Fash on</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/assets/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="/assets/css/maind134.css?v=3.4" />
-  </head>
-
-  <body>
-    <%- include('../partials/loading.ejs') %>
-    <%- include('../partials/header.ejs') %>
-    <main class="main">
-      <div class="page-header breadcrumb-wrap">
-        <div class="container">
-          <div class="breadcrumb">
-            <a href="/user" rel="nofollow">Home</a>
-            <span></span> Wishlist
-          </div>
+<div class="page-header breadcrumb-wrap">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/user" rel="nofollow">Home</a>
+      <span></span> Wishlist
+    </div>
+  </div>
+</div>
+<section class="mt-50 mb-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <% if (locals?.userWishlist && userWishlist.wishlistItems.length> 0) { %>
+            <table class="table shopping-summery text-center">
+              <thead>
+                <tr class="main-heading">
+                  <th scope="col" colspan="2">Product</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% userWishlist.wishlistItems.forEach(wishlistItem=> { %>
+                  <tr>
+                    <td class="image product-thumbnail">
+                      <img
+                        src="data:<%= wishlistItem.productImages[0].contentType %>;base64,<%= wishlistItem.productImages[0].image.toString('base64') %>"
+                        alt="#" />
+                    </td>
+                    <td class="product-des product-name">
+                      <h5 class="product-name">
+                        <%= wishlistItem.productName %>
+                      </h5>
+                    </td>
+                    <td class="price" data-title="Price">
+                      <span>₹<%= wishlistItem.salePrice %></span>
+                    </td>
+                    <td class="text-right" data-title="Cart">
+                      <form action="/user/cart/add/<%= wishlistItem.productId %>?source=wishlist" method="POST">
+                        <button type="submit" class="btn-sm button button-add-to-cart"><i
+                            class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
         </div>
-      </div>
-      <section class="mt-50 mb-50">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="table-responsive">
-                <% if (locals?.userWishlist && userWishlist.wishlistItems.length > 0) { %>
-                  <table class="table shopping-summery text-center">
-                    <thead>
-                      <tr class="main-heading">
-                        <th scope="col" colspan="2">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Action</th>
-                        <th scope="col">Remove</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% userWishlist.wishlistItems.forEach(wishlistItem => { %>
-                        <tr>
-                          <td class="image product-thumbnail">
-                            <img src="data:<%= wishlistItem.productImages[0].contentType %>;base64,<%= wishlistItem.productImages[0].image.toString('base64') %>" alt="#" />
-                          </td>
-                          <td class="product-des product-name">
-                            <h5 class="product-name">
-                              <%= wishlistItem.productName %>
-                            </h5>
-                          </td>
-                          <td class="price" data-title="Price">
-                            <span>₹<%= wishlistItem.salePrice %></span>
-                          </td>
-                          <td class="text-right" data-title="Cart">
-                            <form action="/user/cart/add/<%= wishlistItem.productId %>?source=wishlist" method="POST">
-                                  <button type="submit" class="btn-sm button button-add-to-cart"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
-                              </div>
-                            </form>
-                          </td>
-                          <td class="action" data-title="Remove">
-                            <a class="text-danger" href="/user/wishlist/delete/<%= wishlistItem.productId %>"><i class="fi-rs-trash"></i></a>
-                          </td>
-                        </tr>
-                      <% }) %>
-                    </tbody>
-                  </table>
-                <% } else { %>
-                  <div class="w-50 h-50 bg-body m-auto text-center">
-                    <h3 class="mb-20">Oops! Your Wishlist is Empty</h3>
-                    <a class="btn" href="/user/cart">Check Cart</a>
-                </div>
-                <% } %>
-              </div>
+        </form>
+        </td>
+        <td class="action" data-title="Remove">
+          <a class="text-danger" href="/user/wishlist/delete/<%= wishlistItem.productId %>"><i
+              class="fi-rs-trash"></i></a>
+        </td>
+        </tr>
+        <% }) %>
+          </tbody>
+          </table>
+          <% } else { %>
+            <div class="w-50 h-50 bg-body m-auto text-center">
+              <h3 class="mb-20">Oops! Your Wishlist is Empty</h3>
+              <a class="btn" href="/user/cart">Check Cart</a>
             </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <%- include('../partials/footer.ejs') %>
-    <!-- Vendor JS-->
-    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/plugins/slick.js"></script>
-    <script src="/assets/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="/assets/js/plugins/wow.js"></script>
-    <script src="/assets/js/plugins/jquery-ui.js"></script>
-    <script src="/assets/js/plugins/perfect-scrollbar.js"></script>
-    <script src="/assets/js/plugins/magnific-popup.js"></script>
-    <script src="/assets/js/plugins/select2.min.js"></script>
-    <script src="/assets/js/plugins/waypoints.js"></script>
-    <script src="/assets/js/plugins/counterup.js"></script>
-    <script src="/assets/js/plugins/jquery.countdown.min.js"></script>
-    <script src="/assets/js/plugins/images-loaded.js"></script>
-    <script src="/assets/js/plugins/isotope.js"></script>
-    <script src="/assets/js/plugins/scrollup.js"></script>
-    <script src="/assets/js/plugins/jquery.vticker-min.js"></script>
-    <!-- Template  JS -->
-    <script src="/assets/js/maind134.js?v=3.4"></script>
-    <script src="/assets/js/shopd134.js?v=3.4"></script>
-  </body>
-
-  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:05 GMT -->
-</html>
+            <% } %>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>

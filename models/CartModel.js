@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
+
 const cartSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
       required: true,
+    },
+    couponDiscountPercentage: {
+      type: Number,
     },
     cartItems: [
       {
@@ -20,15 +24,22 @@ const cartSchema = new mongoose.Schema(
               type: Number,
               required: true,
             },
+            category: {
+              type: String,
+              required: true,
+            },
             quantity: {
               type: Number,
               required: true,
               default: 1,
             },
+            categoryOfferAmount: {
+              type: Number,
+            },
             size: {
               type: String,
               required: true,
-              default: 's',
+              default: "s",
             },
             productImages: [
               {

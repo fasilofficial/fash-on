@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 
 const { sendGeneratedOtp, setUser, setAdmin } = require("../service");
+const { generateReferralCode } = require("../helper");
 
-const { Admin, User } = require("../models");
+const { Admin, User, Offer } = require("../models");
 
 let user, admin;
 
@@ -51,19 +52,27 @@ const getAdminLoginVerify = async (req, res) => {
 // HANDLE USER SIGNUP, LOGIN, LOGIN OTP, AND LOGOUT
 const handleUserSignup = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, password } = req.body;
+    const { firstName, lastName, email, phone, password, referral } = req.body;
     const existingUser = await User.findOne({ email });
+    const referredUser = await User.findOne({ referralCode: referral });
+    if (referredUser) {
+      const referralOffer = await Offer.findOne({ offerName: "referral" });
+      referredUser.walletBalance += referralOffer.offerAmount;
+      await referredUser.save();
+    }
     if (existingUser) {
       return res.render("auth/signup", {
         error: "Email already exists, please use a different email",
       });
     }
+    const referralCode = generateReferralCode(6);
     const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({
       firstName,
       lastName,
       email,
       phone,
+      referralCode,
       password: hashedPassword,
     });
 

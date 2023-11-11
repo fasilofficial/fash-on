@@ -1,0 +1,81 @@
+<div class="content-main">
+  <div class="content-header">
+    <h1 class="h2">Edit Coupon</h1>
+  </div>
+  <div class="container">
+    <form
+      action="/admin/banners/edit/<%= banner._id %>?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+    <div class="row form-group mb-4">
+      <div class="col-6">
+        <label for="title">Banner Title:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          value="<%= banner.title %>"
+          placeholder="Enter banner title"
+          id="title"
+          required
+        />
+      </div>
+      <div class="col-6">
+        <label for="subtitle">Banner Subtitle:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="subtitle"
+          value="<%= banner.subtitle %>"
+          placeholder="Enter banner subtitle"
+          id="subtitle"
+          required
+        />
+      </div>
+    </div>
+      <div class="row form-group mb-4">
+        <div class="col-6">
+          <label for="description">Discount Description:</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="description"
+            value="<%= banner.description %>"
+            placeholder="Enter discount description"
+            id="description"
+            required
+          ><%= banner.description %></textarea>
+        </div>
+        <div class="col-6">
+          <label for="type">Banner Type:</label>
+          <select class="form-select" name="type" id="type">
+            <option value="<%= banner.type %>" class="text-capitalize" selected><%= banner.type %></option>
+            <option value="popup">Popup</option>
+            <option value="footer">Footer</option>
+            <option value="day">Day</option>
+            <option value="slide">Slide</option>
+          </select>
+        </div>
+      <div class="form-group mb-4">
+        <label for="image">Banner Image:</label>
+        <div class="col-6 card-group gap-2 mb-4">
+            <div class="card col-1 rounded">
+              <div class="card-body">
+                <img class="card-img-top"
+                src="data:<%= banner.image.contentType %>;base64,<%= banner.image.image.toString('base64') %>"
+                alt="banner image" />
+              </div>
+            </div>
+        </div>
+        <input class="form-control" type="file" id="image" name="image"/>
+      </div>
+      <div class="form-group mb-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-secondary btn-sm" href="/admin/banners"
+          >Back</a
+        >
+      </div>
+    </form>
+  </div>
+</div>

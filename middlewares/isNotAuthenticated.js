@@ -1,6 +1,6 @@
 const isNotUserAuthenticated = async (req, res, next) => {
   const userToken = req.cookies.userToken;
-  if (!userToken) return next();
+  if (!userToken || req.path == '/logout') return next();
   res.redirect("/user");
 };
 const isNotAdminAuthenticated = async (req, res, next) => {

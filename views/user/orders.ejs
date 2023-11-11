@@ -1,0 +1,127 @@
+<div class="page-header breadcrumb-wrap">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/user" rel="nofollow">Home</a>
+      <span></span>Orders
+    </div>
+  </div>
+</div>
+<section class="mt-50 mb-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <% if (locals?.userOrders && userOrders.length > 0){ %>
+        <div class="table-responsive">
+          <table class="table text-center clean">
+            <thead>
+              <tr class="main-heading">
+                <th>Order No.</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Total Quantity</th>
+                <th>Payment Method</th>
+                <th>Actions</th>
+                <th class="text-end">Cancel/ Return</th>
+              </tr>
+            </thead>
+            <tbody>
+              <form action="/user/cart/update?_method=PUT" method="POST">
+                <% if (locals?.userOrders) { %> <% userOrders.forEach((order,
+                index) => { %>
+                <tr>
+                  <td>#<%= index+1 %></td>
+                  <td>
+                    <%= moment(order.createdAt).format("DD/MM/YYYY - ddd") %>
+                  </td>
+                  <td
+                    class="<%= order.status == 'pending' ? 'text-warning' : order.status == 'cancelled' || order.status == 'failed' ? 'text-danger' : order.status == 'delivered' ? 'text-success' : 'text-primary' %> text-capitalize"
+                  >
+                    <%= order.status %>
+                  </td>
+                  <td>₹<%= order.totalAmount %></td>
+                  <td><%= order.totalQuantity %></td>
+                  <td class="text-capitalize"><%= order.paymentMethod %></td>
+                  <td>
+                    <a
+                      href="/user/orders/view/<%= order._id %>"
+                      class="btn-link"
+                      >View</a
+                    >
+                  </td>
+                  <td class="text-end">
+                    <% if (order.status != 'delivered' && order.status !=
+                    'cancelled' && order.status != 'returned') { %>
+                    <a
+                      class="btn-sm btn-danger"
+                      href="/user/orders/cancel/<%= order._id %>?source=user"
+                      >Cancel</a
+                    >
+                    <% } %> <% if (order.status == 'delivered') { %>
+                    <a
+                      class="btn-sm btn-primary"
+                      href="/user/orders/return/<%= order._id %>"
+                      >Return</a
+                    >
+                    <% } %>
+                  </td>
+                </tr>
+                <% }) %> <% } %>
+              </form>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <div class="w-50 h-50 bg-body m-auto text-center">
+          <h3 class="mb-20">Oops! You don't have any order history</h3>
+          <a class="btn" href="/user/products">Shop Now</a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <% if (userOrders.length> 0) { %>
+  <div class="pagination-area mt-30 mb-50">
+    <nav aria-label="Page navigation">
+      <!-- <nav aria-label="Pagination"> -->
+      <ul class="pagination justify-content-center mt-5">
+        <% if (current==1) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">First</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?tab=orders&?page=1" class="page-link">First</a>
+        </li>
+        <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %> <%
+        if(i !==1) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) { %> <%
+        if (i==current) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link"> <%= i %> </a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?tab=orders&?page=<%= i %>" class="page-link"> <%= i %> </a>
+        </li>
+        <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% } %> <% if (current==pages) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">Last</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?tab=orders&?page=<%= pages %>" class="page-link">Last</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+  <% } %>
+</section>

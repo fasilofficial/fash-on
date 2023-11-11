@@ -1,0 +1,38 @@
+<div class="page-header breadcrumb-wrap">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/user" rel="nofollow">Home</a>
+            <span></span>Coupons
+        </div>
+    </div>
+</div>
+<section class="mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="card-deck row justify-content-around align-items-center">
+                <% if (locals?.coupons && coupons.length> 0){ %>
+                    <% coupons.forEach(coupon=> { %>
+                        <div class="card col-md-4 col-sm-1 m-3">
+                            <div class="card-body">
+                                <h5 class="card-title text-uppercase">
+                                    <%= coupon.couponCode %>
+                                </h5>
+                                <p class="card-text">
+                                    <%= coupon.couponDescription %>
+                                </p>
+                                <p class="card-text mt-4"><small class="text-muted">
+                                        <%= coupon.discountPercentage %>% OFF
+                                    </small></p>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <div class="w-50 h-50 bg-body m-auto text-center">
+                                    <h3 class="mb-20">Oops! No coupons available now</h3>
+                                    <a class="btn" href="/user/products">Shop Now</a>
+                                </div>
+                                <% } %>
+            </div>
+        </div>
+    </div>
+</section>

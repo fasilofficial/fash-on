@@ -1,0 +1,56 @@
+<div class="content-main">
+  <div class="content-header">
+    <h1 class="h2">Edit Coupon</h1>
+  </div>
+  <div class="container">
+    <form
+      action="/admin/coupons/edit/<%= coupon._id %>?_method=PUT"
+      method="POST"
+    >
+      <div class="row form-group mb-4">
+        <div class="col-6">
+          <label for="couponCode">coupon Name:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="couponCode"
+            value="<%= coupon.couponCode.toUpperCase() %>"
+            id="couponCode"
+            required
+          />
+        </div>
+        <div class="col-6">
+          <label for="discountPercentage">Discount Percentage:</label>
+          <input
+            class="form-control"
+            type="number"
+            name="discountPercentage"
+            value="<%= coupon.discountPercentage %>"
+            id="discountPercentage"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <div class="col-6">
+          <label for="couponDescription">Discount Description:</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="couponDescription"
+            value="<%= coupon.couponDescription %>"
+            placeholder="Enter discount description"
+            id="couponDescription"
+            required
+          >
+<%= coupon.couponDescription %></textarea
+          >
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-secondary btn-sm" href="/admin/coupons">Back</a>
+      </div>
+    </form>
+  </div>
+</div>

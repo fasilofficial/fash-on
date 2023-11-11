@@ -1,0 +1,150 @@
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Sales List</h2>
+      <p>View and get sales reports</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 card mb-4">
+      <header class="card-header">
+        <div class="row gx-3">
+          <div class="col">
+            <div class="dropdown">
+              <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Filter By
+              </a>
+
+              <ul class="dropdown-menu">
+                <a href="/admin/sales" class="dropdown-item" href="#">All</a>
+                <a href="/admin/sales?filterBy=week" class="dropdown-item" href="#">This week</a>
+                <a href="/admin/sales?filterBy=month" class="dropdown-item" href="#">This month</a>
+                <a href="/admin/sales?filterBy=year" class="dropdown-item" href="#">This year</a>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- card-header end// -->
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Total</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delivery Date</th>
+                <th scope="col" class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% sales.forEach(sale=> { %>
+                <tr>
+                  <td>
+                    <%= sale._id.toString().slice(0,6) %>...
+                  </td>
+                  <td><b>
+                      <%= sale.customerName %>
+                    </b></td>
+                  <td>₹<%= sale.totalAmount %>
+                  </td>
+                  <td>
+                    <span
+                      class="badge rounded-pill text-capitalize <%= sale.status == 'delivered' ? 'alert-success' : 'alert-primary' %>">
+                      <%= sale.status %>
+                    </span>
+                  </td>
+                  <td>
+                    <%= moment(sale.deliveredAt).format('DD/MM/YYYY') %>
+                  </td>
+                  <td class="text-end">
+                    <a href="/admin/sales/view/<%= sale._id %>" class="btn btn-md rounded font-sm">Detail</a>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <!-- table-responsive //end -->
+      </div>
+      <!-- card-body end// -->
+    </div>
+    <div class="col-md-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-3">Filter by Date</h5>
+          <form action="/admin/sales" method="POST">
+            <div class="mb-4">
+              <label for="deliveredAt" class="form-label">Date Delivered</label>
+              <input type="text" placeholder="Eg:- 12/6/2023" class="form-control" name="deliveredAt"
+                id="deliveredAt" />
+            </div>
+            <div>
+              <button class="btn btn-sm btn-primary" type="submit">
+                Filter
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if (sales.length> 0) { %>
+    <div class="pagination-area mt-30 mb-50">
+      <nav aria-label="Page navigation">
+        <!-- <nav aria-label="Pagination"> -->
+        <% if (locals.current) { %>
+          <ul class="pagination justify-content-center mt-5">
+            <% if (current==1) { %>
+              <li class="page-item disabled active">
+                <a href="#" class="page-link">First</a>
+              </li>
+              <% } else { %>
+                <li class="page-item">
+                  <a href="?page=1" class="page-link">First</a>
+                </li>
+                <% } %>
+                  <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                    <% if(i !==1) { %>
+                      <li class="page-item disabled">
+                        <a href="#" class="page-link">...</a>
+                      </li>
+                      <% } %>
+                        <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) { %>
+                          <% if (i==current) { %>
+                            <li class="page-item disabled active">
+                              <a href="#" class="page-link">
+                                <%= i %>
+                              </a>
+                            </li>
+                            <% } else { %>
+                              <li class="page-item">
+                                <a href="?page=<%= i %>" class="page-link">
+                                  <%= i %>
+                                </a>
+                              </li>
+                              <% } %>
+                                <% if (i==Number(current) + 4 && i < pages) { %>
+                                  <li class="page-item disabled">
+                                    <a href="#" class="page-link">...</a>
+                                  </li>
+                                  <% } %>
+                                    <% } %>
+                                      <% if (current==pages) { %>
+                                        <li class="page-item disabled active">
+                                          <a href="#" class="page-link">Last</a>
+                                        </li>
+                                        <% } else { %>
+                                          <li class="page-item">
+                                            <a href="?page=<%= pages %>" class="page-link">Last</a>
+                                          </li>
+                                          <% } %>
+          </ul>
+          <% } %>
+      </nav>
+    </div>
+    <% } %>
+</section>

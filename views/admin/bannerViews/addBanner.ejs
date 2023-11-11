@@ -1,0 +1,73 @@
+<div class="content-main">
+  <div class="content-header">
+    <h1 class="h2">Add Banner</h1>
+  </div>
+  <div class="container">
+    <form
+      action="/admin/banners/add"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="row form-group mb-4">
+        <div class="col-6">
+          <label for="title">Banner Title:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="title"
+            value=""
+            placeholder="Enter banner title"
+            id="title"
+            required
+          />
+        </div>
+        <div class="col-6">
+          <label for="subtitle">Banner Subtitle:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="subtitle"
+            value=""
+            placeholder="Enter banner subtitle"
+            id="subtitle"
+            required
+          />
+        </div>
+      </div>
+      <div class="row form-group mb-4">
+        <div class="col-6">
+          <label for="description">Banner Description:</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="description"
+            value=""
+            placeholder="Enter banner description"
+            id="description"
+            required
+          ></textarea>
+        </div>
+        <div class="col-6">
+          <label for="type">Banner Type</label>
+          <select class="form-select" name="type" id="type">
+            <option value="none" selected>Select Banner Type</option>
+            <option value="popup">Popup</option>
+            <option value="footer">Footer</option>
+            <option value="day">Day</option>
+            <option value="slide">Slide</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <div class="col-6">
+          <label for="image">Banner Image:</label>
+          <input class="form-control" type="file" name="image" id="image" />
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-secondary btn-sm" href="/admin/banners">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

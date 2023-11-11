@@ -1,28 +1,123 @@
+// ADMIN SIDE
 const {
   getAdminDashboard,
-  getUsers,
-  getProducts,
+  getAdmin404,
+  handleExcelDownload,
+} = require("./admin/admin");
+const {
+  getBanners,
+  getAddBanner,
+  getEditBanner,
+  handleAddBanner,
+  handleEditBanner,
+  handleDeleteBanner,
+} = require("./admin/bannerController");
+const {
   getCategories,
-  getOrders,
-  getAddUser,
-  getAddProduct,
   getAddCategory,
-  getEditProduct,
   getEditCategory,
+  handleAddCategory,
+  handleEditCategory,
+  handleDeleteCategory,
+} = require("./admin/categoryController");
+const {
+  getCoupons,
+  getAddCoupon,
+  getEditCoupon,
+  handleAddCoupon,
+  handleEditCoupon,
+  handleDeleteCoupon,
+} = require("./admin/couponController");
+const {
+  getOffers,
+  getAddOffer,
+  getEditOffer,
+  handleAddOffer,
+  handleEditOffer,
+  handleDeleteOffer,
+} = require("./admin/offerController");
+const {
+  getOrders,
   getViewOrder,
   getEditOrder,
-  handleCancelOrder,
-  handleAddUser,
-  handleAddProduct,
-  handleAddCategory,
-  handleBlockAndUnblock,
-  handleEditProduct,
-  handleEditCategory,
   handleEditOrder,
+  handleCancelOrder,
+} = require("./admin/orderController");
+const {
+  getProducts,
+  getAddProduct,
+  getEditProduct,
+  handleAddProduct,
+  handleEditProduct,
   handleDeleteProduct,
-  handleDeleteCategory,
-} = require("./admin");
+  handleDeleteProductImg,
+} = require("./admin/productController");
+const {
+  getAdminProfile,
+  handleEditAdminProfile,
+} = require("./admin/profileController");
+const {
+  getSales,
+  getViewSale,
+  handleFilterByDate,
+} = require("./admin/salesController");
+const { getSettings, handleEditSeo } = require("./admin/settingsController");
+const {
+  getUsers,
+  getAddUser,
+  handleAddUser,
+  handleBlockAndUnblock,
+} = require("./admin/userController");
 
+// USER SIDE
+const {
+  getHome,
+  getUserAbout,
+  getUserContact,
+  handleProductSearch,
+} = require("./user/user");
+const {
+  handleAddAddress,
+  handleDeleteAddress,
+} = require("./user/addressController");
+const {
+  getCart,
+  handleAddToCart,
+  handleUpdateCart,
+  handleDeleteFromCart,
+} = require("./user/cartController");
+const {
+  getCheckout,
+  handleRazorPayPayment,
+} = require("./user/checkoutController");
+const {
+  getUserCoupons,
+  handleApplyCoupon,
+} = require("./user/couponController");
+const {
+  getUserOrders,
+  getViewUserOrder,
+  getOrderPlaced,
+  handlePlaceOrder,
+  handleReturnOrder,
+} = require("./user/orderController");
+const {
+  getProduct,
+  getProducts: getAllProducts,
+} = require("./user/productController");
+const {
+  getProfile,
+  getEditProfile,
+  handleEditProfile,
+  handleChangePassword,
+} = require("./user/profileController");
+const {
+  getWishlist,
+  handleAddToWishlist,
+  handleDeleteFromWishlist,
+} = require("./user/wishlistController");
+
+// AUTHENTICATION
 const {
   getUserSignup,
   getUserLogin,
@@ -39,6 +134,7 @@ const {
   handleAdminLogout,
 } = require("./authentication");
 
+// STATIC
 const {
   getRoot,
   getStaticProducts,
@@ -48,49 +144,85 @@ const {
   get404,
 } = require("./static");
 
-const {
-  getHome,
-  getProducts: getAllProducts,
-  getProduct,
-  getWishlist,
-  getCart,
-  getCheckout,
-  getProfile,
-  getEditProfile,
-  handlePlaceOrder,
-  handleEditProfile,
-  handleChangePassword,
-  handleAddAddress,
-  handleAddToWishlist,
-  handleAddToCart,
-  handleDeleteAddress,
-  handleDeleteFromWishlist,
-  handleDeleteFromCart,
-} = require("./user");
-
 module.exports = {
   getAdminDashboard,
-  getUsers,
-  getProducts,
+  getAdmin404,
+  handleExcelDownload,
+  getBanners,
+  getAddBanner,
+  getEditBanner,
+  handleAddBanner,
+  handleEditBanner,
+  handleDeleteBanner,
   getCategories,
-  getOrders,
-  getAddUser,
-  getAddProduct,
   getAddCategory,
-  getEditProduct,
   getEditCategory,
+  handleAddCategory,
+  handleEditCategory,
+  handleDeleteCategory,
+  getCoupons,
+  getAddCoupon,
+  getEditCoupon,
+  handleAddCoupon,
+  handleEditCoupon,
+  handleDeleteCoupon,
+  getOffers,
+  getAddOffer,
+  getEditOffer,
+  handleAddOffer,
+  handleEditOffer,
+  handleDeleteOffer,
+  getOrders,
   getViewOrder,
   getEditOrder,
-  handleCancelOrder,
-  handleAddUser,
-  handleAddProduct,
-  handleAddCategory,
-  handleBlockAndUnblock,
-  handleEditProduct,
-  handleEditCategory,
   handleEditOrder,
+  handleCancelOrder,
+  getProducts,
+  getAddProduct,
+  getEditProduct,
+  handleAddProduct,
+  handleEditProduct,
   handleDeleteProduct,
-  handleDeleteCategory,
+  handleDeleteProductImg,
+  getAdminProfile,
+  handleEditAdminProfile,
+  getSales,
+  getViewSale,
+  handleFilterByDate,
+  getSettings,
+  handleEditSeo,
+  getUsers,
+  getAddUser,
+  handleAddUser,
+  handleBlockAndUnblock,
+  getHome,
+  getUserAbout,
+  getUserContact,
+  handleProductSearch,
+  handleAddAddress,
+  handleDeleteAddress,
+  getCart,
+  handleAddToCart,
+  handleUpdateCart,
+  handleDeleteFromCart,
+  getCheckout,
+  handleRazorPayPayment,
+  handleApplyCoupon,
+  getUserCoupons,
+  getUserOrders,
+  getViewUserOrder,
+  getOrderPlaced,
+  handlePlaceOrder,
+  handleReturnOrder,
+  getProduct,
+  getProducts,
+  getProfile,
+  getEditProfile,
+  handleEditProfile,
+  handleChangePassword,
+  getWishlist,
+  handleAddToWishlist,
+  handleDeleteFromWishlist,
   getUserSignup,
   getUserLogin,
   handleResendOtp,
@@ -104,27 +236,11 @@ module.exports = {
   handleAdminLogin,
   handleAdminLoginOtpVerification,
   handleAdminLogout,
-  get404,
   getRoot,
   getStaticProducts,
   getStaticProduct,
   getAbout,
   getContact,
-  getHome,
   getAllProducts,
-  getProduct,
-  getWishlist,
-  getCart,
-  getCheckout,
-  getProfile,
-  getEditProfile,
-  handlePlaceOrder,
-  handleEditProfile,
-  handleChangePassword,
-  handleAddAddress,
-  handleAddToWishlist,
-  handleAddToCart,
-  handleDeleteAddress,
-  handleDeleteFromWishlist,
-  handleDeleteFromCart,
+  get404,
 };

@@ -1,168 +1,130 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
-  <head>
-    <meta charset="utf-8" />
-    <title>Fash on</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/assets/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="/assets/css/maind134.css?v=3.4" />
-  </head>
-
-  <body>
-    <%- include('../partials/loading.ejs') %>
-    <%- include('../partials/header-static.ejs') %>
+<%- include('../partials/loading.ejs') %>
+  <%- include('../partials/header-static.ejs') %>
     <main class="main">
       <div class="page-header breadcrumb-wrap">
         <div class="container">
-            <div class="breadcrumb">
-                <a href="/" rel="nofollow">Home</a>
-                <span></span> Shop
-            </div>
+          <div class="breadcrumb">
+            <a href="/user" rel="nofollow">Home</a>
+            <span></span> Shop
+          </div>
         </div>
-    </div>
-      <section class="product-tabs section-padding wow fadeIn animated">
+      </div>
+      <section class="mt-50 mb-50">
         <div class="container">
-          <!--End nav-tabs-->
-          <div class="tab-content wow fadeIn animated" id="myTabContent">
-            <div
-              class="tab-pane fade show active"
-              id="tab-one"
-              role="tabpanel"
-              aria-labelledby="tab-one"
-            >
-              <div class="row product-grid-4">
-                <% products.forEach(product => { %>
+          <div class="row flex-row-reverse">
+            <div class="col-lg-9">
 
-                <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                  <div class="product-cart-wrap mb-30">
-                    <div class="product-img-action-wrap">
-                      <div class="product-img product-img-zoom">
-                        <a href="/products/<%= product._id %>">
-                          <img
-                            class="default-img"
-                            src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
-                            alt=""
-                          />
-                          <img
-                            class="hover-img"
-                            src="data:<%= product.productImages[1]?.contentType %>;base64,<%= product.productImages[1]?.image.toString('base64') %>"
-                            alt=""
-                          />
-                        </a>
+              <div class="row product-grid-3">
+                <% products.forEach(product=> { %>
+                  <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                    <div class="product-cart-wrap mb-30">
+                      <div class="product-img-action-wrap">
+                        <div class="product-img product-img-zoom">
+                          <a href="/products/<%= product._id %>">
+                            <img class="default-img"
+                              src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
+                              alt="">
+                            <img class="hover-img"
+                              src="data:<%= product.productImages[1]?.contentType %>;base64,<%= product.productImages[1]?.image.toString('base64') %>"
+                              alt="">
+                          </a>
+                        </div>
+
+                        <div class="product-badges product-badges-position product-badges-mrg">
+                          <span class="hot">Hot</span>
+                        </div>
                       </div>
-                      
-                    </div>
-                    <div class="product-content-wrap">
-                      <h2>
-                        <a href="/products/<%= product._id %>"><%= product.productName %></a>
-                      </h2>
-                      <p class="text-muted"><%= product.brand %></p>
-                      <div class="product-price">
-                        <span>₹<%= product.salePrice %> </span>
-                        <span class="old-price">₹<%= product.regularPrice %></span>
+                      <div class="product-content-wrap">
+                        <div class="product-category">
+                          <p class="text-capitalize">
+                            <%= product.category %>
+                          </p>
+                        </div>
+                        <h2><a href="/products/<%= product._id %>">
+                            <%= product.productName %>
+                          </a></h2>
+                        <div class="product-price">
+                          <span>$ <%= product.salePrice %> </span>
+                          <span class="old-price">$ <%= product.regularPrice %></span>
+                        </div>
+
                       </div>
-                    </div>
-                    <div class="product-action-1 show">
-                      
                     </div>
                   </div>
-                </div>
-                <% }) %>
-              </div>
-              <!--End product-grid-4-->
-            </div>
-            <!--En tab one (Featured)-->
-            
-            <!--En tab three (New added)-->
-          </div>
-          <!--End tab-content-->
-        </div>
 
-        <% if (products.length> 0) { %>
-          <div class="pagination-area mt-30 mb-50">
-            <nav aria-label="Page navigation">
-              <!-- <nav aria-label="Pagination"> -->
-              <ul class="pagination justify-content-center mt-5">
-                <% if (current==1) { %>
-                <li class="page-item disabled active">
-                  <a href="#" class="page-link">First</a>
-                </li>
-                <% } else { %>
-                <li class="page-item">
-                  <a href="?page=1" class="page-link">First</a>
-                </li>
-                <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-                <% if(i !==1) { %>
-                <li class="page-item disabled">
-                  <a href="#" class="page-link">...</a>
-                </li>
-                <% } %> <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) {
-                %> <% if (i==current) { %>
-                <li class="page-item disabled active">
-                  <a href="#" class="page-link"> <%= i %> </a>
-                </li>
-                <% } else { %>
-                <li class="page-item">
-                  <a href="?page=<%= i %>" class="page-link"> <%= i %> </a>
-                </li>
-                <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
-                <li class="page-item disabled">
-                  <a href="#" class="page-link">...</a>
-                </li>
-                <% } %> <% } %> <% if (current==pages) { %>
-                <li class="page-item disabled active">
-                  <a href="#" class="page-link">Last</a>
-                </li>
-                <% } else { %>
-                <li class="page-item">
-                  <a href="?page=<%= pages %>" class="page-link">Last</a>
-                </li>
+                  <% }) %>
+
+              </div>
+              <!--pagination-->
+              <% if (products.length> 0) { %>
+                <div class="pagination-area mt-30 mb-50">
+                  <nav aria-label="Page navigation">
+                    <!-- <nav aria-label="Pagination"> -->
+                    <ul class="pagination justify-content-center mt-5">
+                      <% if (current==1) { %>
+                        <li class="page-item disabled active">
+                          <a href="#" class="page-link">First</a>
+                        </li>
+                        <% } else { %>
+                          <li class="page-item">
+                            <a href="?page=1" class="page-link">First</a>
+                          </li>
+                          <% } %>
+                            <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                              <% if(i !==1) { %>
+                                <li class="page-item disabled">
+                                  <a href="#" class="page-link">...</a>
+                                </li>
+                                <% } %>
+                                  <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) { %>
+                                    <% if (i==current) { %>
+                                      <li class="page-item disabled active">
+                                        <a href="#" class="page-link">
+                                          <%= i %>
+                                        </a>
+                                      </li>
+                                      <% } else { %>
+                                        <li class="page-item">
+                                          <a href="?page=<%= i %>" class="page-link">
+                                            <%= i %>
+                                          </a>
+                                        </li>
+                                        <% } %>
+                                          <% if (i==Number(current) + 4 && i < pages) { %>
+                                            <li class="page-item disabled">
+                                              <a href="#" class="page-link">...</a>
+                                            </li>
+                                            <% } %>
+                                              <% } %>
+                                                <% if (current==pages) { %>
+                                                  <li class="page-item disabled active">
+                                                    <a href="#" class="page-link">Last</a>
+                                                  </li>
+                                                  <% } else { %>
+                                                    <li class="page-item">
+                                                      <a href="?page=<%= pages %>" class="page-link">Last</a>
+                                                    </li>
+                                                    <% } %>
+                    </ul>
+                  </nav>
+                </div>
                 <% } %>
-              </ul>
-            </nav>
+            </div>
+            <div class="col-lg-3 primary-sidebar sticky-sidebar">
+              <div class="widget-category mb-30">
+                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                <ul class="categories">
+                  <li class="text-capitalize"><a href="/products">All</a></li>
+                  <% categories.forEach(category=> { %>
+                    <li class="text-capitalize"><a href="/products?category=<%= category.categoryName %>">
+                        <%= category.categoryName %>
+                      </a></li>
+                    <% }) %>
+                </ul>
+              </div>
+            </div>
           </div>
-          <% } %>
+        </div>
       </section>
     </main>
     <%- include('../partials/footer-static.ejs') %>
-    <!-- Vendor JS-->
-    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/plugins/slick.js"></script>
-    <script src="/assets/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="/assets/js/plugins/wow.js"></script>
-    <script src="/assets/js/plugins/jquery-ui.js"></script>
-    <script src="/assets/js/plugins/perfect-scrollbar.js"></script>
-    <script src="/assets/js/plugins/magnific-popup.js"></script>
-    <script src="/assets/js/plugins/select2.min.js"></script>
-    <script src="/assets/js/plugins/waypoints.js"></script>
-    <script src="/assets/js/plugins/counterup.js"></script>
-    <script src="/assets/js/plugins/jquery.countdown.min.js"></script>
-    <script src="/assets/js/plugins/images-loaded.js"></script>
-    <script src="/assets/js/plugins/isotope.js"></script>
-    <script src="/assets/js/plugins/scrollup.js"></script>
-    <script src="/assets/js/plugins/jquery.vticker-min.js"></script>
-    <script src="/assets/js/plugins/jquery.theia.sticky.js"></script>
-    <script src="/assets/js/plugins/jquery.elevatezoom.js"></script>
-    <!-- Template  JS -->
-    <script src="/assets/js/maind134.js?v=3.4"></script>
-    <script src="/assets/js/shopd134.js?v=3.4"></script>
-  </body>
-
-  <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:09 GMT -->
-</html>

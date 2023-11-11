@@ -1,0 +1,156 @@
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Coupons List</h2>
+      <p>Browse and Manage the coupons</p>
+    </div>
+    <div>
+      <a href="/admin/coupons/add" class="btn btn-primary btn-sm rounded"
+        >Add coupon</a
+      >
+    </div>
+  </div>
+  <% if (locals.messages.info) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= messages.info %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %> <% if (locals.messages.error) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= messages.error %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %>
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Coupon Code</th>
+        <th scope="col">Discount Percentage</th>
+        <th scope="col" class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% coupons.forEach((coupon, id) => { %>
+      <tr>
+        <th scope="row"><%= id + 1 %></th>
+        <td class="text-uppercase"><%= coupon.couponCode %></td>
+        <td><%= coupon.discountPercentage %>%</td>
+        <td class="text-end">
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <a
+              class="btn btn-sm btn-warning"
+              href="/admin/coupons/edit/<%= coupon._id %>"
+              >Edit</a
+            >
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#-exampleModal<%= id %>"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <div
+        class="modal fade"
+        id="exampleModal-<%= id %>"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Modal title
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              You're about to delete the coupon. Do you want to continue?
+            </div>
+            <div class="modal-footer">
+              <form
+                action="/admin/coupons/edit/<%= coupon._id %>?_method=DELETE"
+                method="POST"
+              >
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </tbody>
+  </table>
+  <% if (coupons.length> 0) { %>
+  <div class="pagination-area mt-30 mb-50">
+    <nav aria-label="Page navigation">
+      <!-- <nav aria-label="Pagination"> -->
+      <ul class="pagination justify-content-center mt-5">
+        <% if (current==1) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">First</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=1" class="page-link">First</a>
+        </li>
+        <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %> <%
+        if(i !==1) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% for(; i <=(Number(current) + 4) && i <=pages; i++ ) { %> <%
+        if (i==current) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link"> <%= i %> </a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=<%= i %>" class="page-link"> <%= i %> </a>
+        </li>
+        <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
+        <li class="page-item disabled">
+          <a href="#" class="page-link">...</a>
+        </li>
+        <% } %> <% } %> <% if (current==pages) { %>
+        <li class="page-item disabled active">
+          <a href="#" class="page-link">Last</a>
+        </li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="?page=<%= pages %>" class="page-link">Last</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+  <% } %>
+</section>

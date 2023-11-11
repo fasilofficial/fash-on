@@ -5,6 +5,7 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("express-flash");
 const moment = require("moment");
+const expressLayouts = require("express-ejs-layouts");
 
 const app = express();
 const PORT = 3000;
@@ -12,39 +13,25 @@ const PORT = 3000;
 app.locals.moment = moment;
 
 const { adminRouter, userRouter, staticRouter } = require("./routes");
+
 const connectDB = require("./config/db");
 
-const {
-  getUserSignup,
-  getUserLogin,
-  handleResendOtp,
-  getUserLoginVerify,
-  getAdminLogin,
-  getAdminLoginVerify,
-  handleUserSignup,
-  handleUserLogin,
-  handleUserLoginOtpVerification,
-  handleUserLogout,
-  handleAdminLogin,
-  handleAdminLoginOtpVerification,
-  handleAdminLogout,
-  get404,
-  getRoot,
-} = require("./controllers");
+const { get404 } = require("./controllers");
 
 const {
   isUserAuthenticated,
   isNotUserBlocked,
-  isAdminAuthenticated,
   isNotUserAuthenticated,
-  isNotAdminAuthenticated,
+  isAdminAuthenticated,
+  setAdminAvatar,
+  setUserSeo,
+  setAdminSeo,
 } = require("./middlewares");
-
-// const flash = require("express-flash");
 
 connectDB();
 
 app.set("view engine", "ejs");
+app.use(expressLayouts);
 
 app.use(
   session({
@@ -60,32 +47,21 @@ app.use(
 app.use(flash());
 
 app.use(cookieParser());
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(express.static("public/assets/css"));
 
-// GET
-app.get("/", getRoot);
-app.get("/signup", getUserSignup);
-app.get("/login", isNotUserAuthenticated, getUserLogin);
-app.get("/login/verify", isNotUserAuthenticated, getUserLoginVerify);
-app.get("/login/verify/resendOtp", isNotUserAuthenticated, handleResendOtp);
-app.get("/login/admin", isNotAdminAuthenticated, getAdminLogin);
-app.get("/login/admin/verify", isNotAdminAuthenticated, getAdminLoginVerify);
-
-// POST
-app.post("/signup", handleUserSignup);
-app.post("/login", handleUserLogin);
-app.post("/login/verify", handleUserLoginOtpVerification);
-app.post("/logout", handleUserLogout);
-app.post("/login/admin", handleAdminLogin);
-app.post("/login/admin/verify", handleAdminLoginOtpVerification);
-app.post("/logout/admin", handleAdminLogout);
-
-app.use("/admin", isAdminAuthenticated, adminRouter);
-app.use("/user", isUserAuthenticated, isNotUserBlocked, userRouter);
-app.use("/", staticRouter);
+app.use(
+  "/admin",
+  isAdminAuthenticated,
+  setAdminSeo,
+  setAdminAvatar,
+  adminRouter
+);
+app.use("/user", isUserAuthenticated, isNotUserBlocked, setUserSeo, userRouter);
+app.use("/", isNotUserAuthenticated, setUserSeo, staticRouter);
 
 // Handle 404
 app.get("*", get404);

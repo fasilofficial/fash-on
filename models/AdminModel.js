@@ -19,6 +19,14 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      contentType: {
+        type: String,
+      },
+      image: {
+        type: Buffer,
+      },
+    },
     password: {
       type: String,
       required: true,

@@ -1,40 +1,23 @@
 <header class="main-header navbar justify-content-end">
   <div class="col-nav">
-    <button
-      class="btn btn-icon btn-mobile me-auto"
-      data-trigger="#offcanvas_aside"
-    >
+    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
       <i class="material-icons md-apps"></i>
     </button>
     <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+      </li>
       <li class="dropdown nav-item">
-        <a
-          class="dropdown-toggle"
-          data-bs-toggle="dropdown"
-          href="#"
-          id="dropdownAccount"
-          aria-expanded="false"
-          onclick="document.getElementById('admin-dropdown-menu').classList.toggle('show')"
-        >
-          <img
-            class="img-xs rounded-circle"
-            src="/assets/imgs/people/avatar2.jpg"
-            alt="User"
-        /></a>
-        <div
-          class="dropdown-menu dropdown-menu-end"
-          id="admin-dropdown-menu"
-          aria-labelledby="dropdownAccount"
-        >
-          <a class="dropdown-item" href="#"
-            ><i class="material-icons md-perm_identity"></i>Edit Profile</a
-          >
-          <a class="dropdown-item" href="#"
-            ><i class="material-icons md-settings"></i>Account Settings</a
-          >
+        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"
+          onclick="document.getElementById('admin-dropdown-menu').classList.toggle('show');">
+          <img class="img-xs rounded-circle" src="<%= locals?.adminAvatar %>" alt="User" /></a>
+        <div class="dropdown-menu dropdown-menu-end" id="admin-dropdown-menu" aria-labelledby="dropdownAccount">
+          <a class="dropdown-item" href="/admin/profile"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+          <a class="dropdown-item" href="/admin/settings"><i class="material-icons md-settings"></i>SEO Settings</a>
           <div class="dropdown-divider"></div>
           <form action="/logout/admin" method="POST">
-            <button class="dropdown-item text-danger" type="submit"><i class="material-icons md-exit_to_app"></i>Logout</button>
+            <button class="dropdown-item text-danger" type="submit"><i
+                class="material-icons md-exit_to_app"></i>Logout</button>
           </form>
         </div>
       </li>

@@ -28,6 +28,18 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    newUser: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    walletBalance: {
+      type: Number,
+      default: 0,
+    },
+    referralCode: {
+      type: String,
+    },
     addresses: [
       {
         type: new mongoose.Schema(
@@ -45,22 +57,8 @@ const userSchema = new mongoose.Schema(
         ),
       },
     ],
-    cart: [
-      {
-        productId: String,
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-      },
-    ],
-    wishlist: [
-      {
-        productId: String,
-        productName: String,
-      },
-    ],
   },
   { timestamps: true }
 );
+
 module.exports = mongoose.model("User", userSchema);
