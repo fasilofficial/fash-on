@@ -122,11 +122,10 @@
                           <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                         </div>
                         <div class="product-extra-link2">
-                          <button type="submit" class="button button-add-to-cart">
+                          <button type="button" class="button button-add-to-cart" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
                             Add to cart
                           </button>
-                          <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i
-                              class="fi-rs-heart"></i></a>
                         </div>
                       </div>
                       <ul class="product-meta font-xs color-grey mt-50">
@@ -138,6 +137,24 @@
                       </ul>
                     </div>
                     <!-- Detail Info -->
+                  </div>
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Please Login</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Please login to add this item to cart.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a class="btn btn-primary" href="/login">Login</a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row">

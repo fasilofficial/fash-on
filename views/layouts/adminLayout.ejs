@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title><%= locals.adminTitle %></title>
+    <title>
+        <%= locals.adminTitle %>
+    </title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,14 +15,169 @@
     <meta property="og:image" content="" />
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <div class="screen-overlay"></div>
     <%- include('../partials/sidebar.ejs') %>
         <main class="main-wrap">
-            <%- include('../partials/admin-header.ejs') %> <%- body %> <%- include('../partials/admin-footer.ejs') %>
+            <%- include('../partials/admin-header.ejs') %>
+                <%- body %>
+                    <div class="alan-btn"></div>
+
+                    <%- include('../partials/admin-footer.ejs') %>
         </main>
+        <script type="text/javascript" src="https://studio.alan.app/web/lib/alan_lib.min.js"></script>
+        <script>
+            const COMMANDS = {
+                DARK_MODE: 'dark-mode',
+                LIGHT_MODE: 'light-mode',
+                SWITCH_MODE: 'switch-mode',
+                OPEN_PRODUCTS: 'open-products',
+                OPEN_USERS: 'open-users',
+                OPEN_CATEGORIES: 'open-categories',
+                OPEN_ORDERS: 'open-admin-orders',
+                OPEN_COUPONS: 'open-admin-coupons',
+                OPEN_OFFERS: 'open-offers',
+                OPEN_BANNERS: 'open-banners',
+                OPEN_SALES: 'open-sales',
+                OPEN_PROFILE: 'open-admin-profile',
+                OPEN_SETTINGS: 'open-settings',
+                ADD_PRODUCT: 'add-product',
+                ADD_USER: 'add-user',
+                ADD_OFFER: 'add-offer',
+                ADD_CATEGORY: 'add-category',
+                ADD_BANNER: 'add-banner',
+                ADD_COUPON: 'add-product',
+            }
+
+            function darkMode() {
+                document.body.classList.add('dark')
+            }
+            function lightMode() {
+                document.body.classList.remove('dark')
+            }
+            function switchMode() {
+                document.body.classList.toggle('dark')
+            }
+
+            function openProducts() {
+                window.open('/admin/products', target = '_self')
+            }
+            function openUsers() {
+                window.open('/admin/users', target = '_self')
+            }
+            function openCategories() {
+                window.open('/admin/categories', target = '_self')
+            }
+            function openAdminCoupons() {
+                window.open('/admin/coupons', target = '_self')
+            }
+            function openAdminOrders() {
+                window.open('/admin/orders', target = '_self')
+            }
+            function openBanners() {
+                window.open('/admin/banners', target = '_self')
+            }
+            function openOffers() {
+                window.open('/admin/offers', target = '_self')
+            }
+            function openSales() {
+                window.open('/admin/sales', target = '_self')
+            }
+            function openAdminProfile() {
+                window.open('/admin/profile', target = '_self')
+            }
+            function openSettings() {
+                window.open('/admin/settings', target = '_self')
+            }
+
+            function addProduct() {
+                window.open('/admin/products/add', target = '_self')
+            }
+            function addCategory() {
+                window.open('/admin/categories/add', target = '_self')
+            }
+            function addOffer() {
+                window.open('/admin/offers/add', target = '_self')
+            }
+            function addCoupon() {
+                window.open('/admin/coupons/add', target = '_self')
+            }
+            function addBanner() {
+                window.open('/admin/banners/add', target = '_self')
+            }
+            function addUser() {
+                window.open('/admin/users/add', target = '_self')
+            }
+
+
+            var alanBtnInstance = alanBtn({
+                key: "b9d152e37dccf57299c57d7f632c19062e956eca572e1d8b807a3e2338fdd0dc/stage",
+                onCommand: function (commandData) {
+                    if (commandData.command === COMMANDS.DARK_MODE) {
+                        darkMode()
+                    }
+                    if (commandData.command === COMMANDS.LIGHT_MODE) {
+                        lightMode()
+                    }
+                    if (commandData.command === COMMANDS.SWITCH_MODE) {
+                        switchMode()
+                    }
+
+                    if (commandData.command === COMMANDS.OPEN_PRODUCTS) {
+                        openProducts()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_USERS) {
+                        openUsers()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_CATEGORIES) {
+                        openCategories()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_COUPONS) {
+                        openAdminCoupons()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_ORDERS) {
+                        openAdminOrders()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_BANNERS) {
+                        openBanners()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_OFFERS) {
+                        openOffers()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_PROFILE) {
+                        openAdminProfile()
+                    }
+                    if (commandData.command === COMMANDS.OPEN_SETTINGS) {
+                        openSettings()
+                    }
+
+                    if (commandData.command === COMMANDS.ADD_PRODUCT) {
+                        addProduct()
+                    }
+                    if (commandData.command === COMMANDS.ADD_USER) {
+                        addUser()
+                    }
+                    if (commandData.command === COMMANDS.ADD_BANNER) {
+                        addBanner()
+                    }
+                    if (commandData.command === COMMANDS.ADD_OFFER) {
+                        addOffer()
+                    }
+                    if (commandData.command === COMMANDS.ADD_CATEGORY) {
+                        addCategory()
+                    }
+                    if (commandData.command === COMMANDS.ADD_COUPON) {
+                        addCoupon()
+                    }
+                },
+                rootEl: document.getElementById("alan-btn"),
+            });
+        </script>
         <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="/assets/js/vendors/bootstrap.bundle.min-2.js"></script>
         <script src="/assets/js/vendors/select2.min.js"></script>

@@ -15,14 +15,82 @@
   <meta property="og:image" content="" />
   <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg" />
   <link rel="stylesheet" href="/assets/css/maind134.css?v=3.4" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
   <%- include('../partials/loading.ejs') %> <%- include('../partials/header.ejs') %>
       <main class="main">
         <%- body %>
+          <div class="alan-btn"></div>
       </main>
       <%- include('../partials/footer.ejs') %>
+        <script type="text/javascript" src="https://studio.alan.app/web/lib/alan_lib.min.js"></script>
+        <script>
+          const COMMANDS = {
+            OPEN_CART: 'open-cart',
+            OPEN_WISHLIST: 'open-wishlist',
+            OPEN_PROFILE: 'open-profile',
+            OPEN_COUPONS: 'open-coupons',
+            OPEN_ORDERS: 'open-orders',
+            OPEN_ABOUT: 'open-about',
+            OPEN_CONTACT: 'open-contact',
+          }
+
+          function openCart() {
+
+            window.open('/user/cart', target = '_self')
+            console.log(alanBtnInstance)
+          }
+          function openWishlist() {
+            window.open('/user/wishlist', target = '_self')
+          }
+          function openProfile() {
+            window.open('/user/profile', target = '_self')
+          }
+          function openCoupons() {
+            window.open('/user/coupons', target = '_self')
+          }
+          function openOrders() {
+            window.open('/user/orders', target = '_self')
+          }
+          function openContact() {
+            window.open('/user/contact', target = '_self')
+          }
+          function openAbout() {
+            window.open('/user/about', target = '_self')
+          }
+
+          var alanBtnInstance = alanBtn({
+            key: "b9d152e37dccf57299c57d7f632c19062e956eca572e1d8b807a3e2338fdd0dc/stage",
+            onCommand: function (commandData) {
+              if (commandData.command === COMMANDS.OPEN_CART) {
+                openCart()
+              }
+              if (commandData.command === COMMANDS.OPEN_WISHLIST) {
+                openWishlist()
+              }
+              if (commandData.command === COMMANDS.OPEN_PROFILE) {
+                openProfile()
+              }
+              if (commandData.command === COMMANDS.OPEN_COUPONS) {
+                openCoupons()
+              }
+              if (commandData.command === COMMANDS.OPEN_ORDERS) {
+                openOrders()
+              }
+              if (commandData.command === COMMANDS.OPEN_CONTACT) {
+                openContact()
+              }
+              if (commandData.command === COMMANDS.OPEN_ABOUT) {
+                openAbout()
+              }
+            },
+            rootEl: document.getElementById("alan-btn"),
+          });
+        </script>
         <script src="/assets/js/vendors/modernizr-3.6.0.min.js"></script>
         <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="/assets/js/vendors/jquery-migrate-3.3.0.min.js"></script>

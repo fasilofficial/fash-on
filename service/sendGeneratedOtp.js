@@ -6,7 +6,7 @@ const sendGeneratedOtp = async (user, res) => {
   try {
     var generatedOtp = "";
     let digits = "0123456789";
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6; i++) {
       generatedOtp += digits[Math.floor(Math.random() * 10)];
     }
     await client.messages.create({
