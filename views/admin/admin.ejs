@@ -143,7 +143,7 @@
     </header>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-responsive table-striped">
+        <table class="table table-responsive">
           <thead>
             <tr>
               <th scope="col">Order Id</th>
@@ -169,7 +169,7 @@
                 </td>
                 <td>
                   <span
-                    class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' : order.status == 'cancelled' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
+                    class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' : order.status == 'cancelled' || order.status == 'failed' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
                     <%= order.status %>
                   </span>
                 </td>

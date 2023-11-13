@@ -1,7 +1,5 @@
 const { Product, Cart, Wishlist, Category } = require("../../models");
 
-const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
-
 const getProducts = async (req, res) => {
   try {
     let perPage = 20;
@@ -58,6 +56,7 @@ const getProduct = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
+    const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
     res.render("user/product", {
       product,
       relatedProducts,

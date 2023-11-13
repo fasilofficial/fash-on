@@ -1,7 +1,5 @@
 const { Product, Banner, Category } = require("../models");
 
-const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
-
 const getRoot = async (req, res) => {
   try {
     const products = await Product.find({}).limit(12);
@@ -64,6 +62,7 @@ const getStaticProduct = async (req, res) => {
       $and: [{ _id: { $ne: product._id } }, { category: product.category }],
     }).limit(4);
     const path = req.route.path;
+    const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
     res.render("misc/product", { product, relatedProducts, sizes, path });
   } catch (error) {
     console.log(error);

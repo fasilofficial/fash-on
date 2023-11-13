@@ -125,7 +125,7 @@
                                                             <dt>Status:</dt>
                                                             <dd>
                                                                 <span
-                                                                    class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' :  order.status == 'cancelled' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
+                                                                    class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' :  order.status == 'cancelled' || order.status == 'failed' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
                                                                     <%= order.status %>
                                                                 </span>
                                                             </dd>

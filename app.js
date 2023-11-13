@@ -8,7 +8,7 @@ const moment = require("moment");
 const expressLayouts = require("express-ejs-layouts");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.locals.moment = moment;
 
@@ -51,7 +51,7 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
-app.use(express.static("public/assets/css"));
+// app.use(express.static("public/assets/css"));
 
 app.use(
   "/admin",
@@ -63,7 +63,6 @@ app.use(
 app.use("/user", isUserAuthenticated, isNotUserBlocked, setUserSeo, userRouter);
 app.use("/", isNotUserAuthenticated, setUserSeo, staticRouter);
 
-// Handle 404
 app.get("*", get404);
 
 app.listen(PORT, (err) => {

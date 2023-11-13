@@ -13,9 +13,6 @@
   ],
   "author": "Muhammed Fasil K",
   "license": "ISC",
-  "nodemonConfig" : {
-    "ext": "js,mjs,cjs,json,ejs"
-  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.0",

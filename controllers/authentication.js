@@ -133,7 +133,8 @@ const handleUserLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
     const generatedOtp = req.cookies.generatedOtp;
-    const isMatch = enteredOtp === generatedOtp;
+    // const isMatch = enteredOtp === generatedOtp;
+    const isMatch = bcrypt.compare(enteredOtp, generatedOtp);
     if (!isMatch) {
       return res.render("auth/login-verify", {
         error: "Entered OTP is incorrect, try again",
@@ -189,7 +190,8 @@ const handleAdminLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
     const generatedOtp = req.cookies.generatedOtp;
-    const isMatch = enteredOtp === generatedOtp;
+    // const isMatch = enteredOtp === generatedOtp;
+    const isMatch = bcrypt.compare(enteredOtp, generatedOtp);
     if (!isMatch) {
       return res.render("auth/admin-login-verify", {
         error: "Entered OTP is incorrect, try again",

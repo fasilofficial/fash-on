@@ -6,7 +6,6 @@ const setUserSeo = async (req, res, next) => {
   res.locals.userDescription = userDescription;
   next();
 };
-
 const setAdminSeo = async (req, res, next) => {
   const { adminTitle } = await Seo.findOne();
   res.locals.adminTitle = adminTitle;
