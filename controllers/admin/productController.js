@@ -15,6 +15,7 @@ const getProducts = async (req, res) => {
     const pages = Math.ceil(count / perPage);
 
     const path = req.route.path;
+    res.status(200);
     res.render("admin/productViews/products", {
       products,
       current: page,
@@ -23,15 +24,18 @@ const getProducts = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getAddProduct = async (req, res) => {
   try {
     const categories = await Category.find({});
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/productViews/addProduct", { sizes, categories, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getEditProduct = async (req, res) => {
@@ -39,6 +43,7 @@ const getEditProduct = async (req, res) => {
     const product = await Product.findById(req.params.id);
     const categories = await Category.find({});
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/productViews/editProduct", {
       product,
       sizes,
@@ -47,6 +52,7 @@ const getEditProduct = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddProduct = async (req, res) => {
@@ -90,9 +96,11 @@ const handleAddProduct = async (req, res) => {
       await product.save();
     }
     await req.flash("info", "New product has been added.");
+    res.status(200);
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditProduct = async (req, res) => {
@@ -124,6 +132,7 @@ const handleEditProduct = async (req, res) => {
         product.productImages.push(productImage);
       });
       await product.save();
+      res.status(200);
       return res.redirect(`/admin/products/edit/${req.params.id}`);
     } else {
       await Product.findByIdAndUpdate(req.params.id, {
@@ -138,28 +147,38 @@ const handleEditProduct = async (req, res) => {
         regularPrice: req.body.regularPrice,
         salePrice: req.body.salePrice,
       });
+      res.status(200);
       return res.redirect(`/admin/products/edit/${req.params.id}`);
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteProduct = async (req, res) => {
   try {
     await Product.deleteOne({ _id: req.params.id });
     await req.flash("info", "A product has been deleted.");
+    res.status(200);
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteProductImg = async (req, res) => {
-  const productId = req.query.productId;
-  const productImgId = req.params.id;
-  await Product.findByIdAndUpdate(productId, {
-    $pull: { productImages: { _id: productImgId } },
-  });
-  res.redirect(`/admin/products/edit/${productId}`);
+  try {
+    const productId = req.query.productId;
+    const productImgId = req.params.id;
+    await Product.findByIdAndUpdate(productId, {
+      $pull: { productImages: { _id: productImgId } },
+    });
+    res.status(200);
+    res.redirect(`/admin/products/edit/${productId}`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 module.exports = {

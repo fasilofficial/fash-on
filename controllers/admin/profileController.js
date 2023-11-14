@@ -4,9 +4,11 @@ const getAdminProfile = async (req, res) => {
   try {
     const admin = await Admin.findById(req.admin._id);
     const path = req.route.path;
+    res.status(200);
     res.render("admin/profileViews/profile", { admin, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditAdminProfile = async (req, res) => {
@@ -27,9 +29,11 @@ const handleEditAdminProfile = async (req, res) => {
         },
       });
     }
+    res.status(200);
     res.redirect("/admin/profile");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

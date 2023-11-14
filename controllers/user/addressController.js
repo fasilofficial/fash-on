@@ -28,18 +28,7 @@ const handleAddAddress = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userOrders = await Order.find({ customerId: req.user._id });
     const path = req.route.path;
-    // if (userCart) {
-    //   const total = userCart.cartItems.reduce(
-    //     (currentTotal, cartItem) =>
-    //       currentTotal + cartItem.salePrice * cartItem.quantity,
-    //     0
-    //   );
-    // }
-    // if (total) {
-    //   if (sourceUrl == "checkout") {
-    //     return res.render("user/checkout", { path, user, userCart, total });
-    //   }
-    // }
+    res.status(200);
     if (sourceUrl == "checkout") {
       return res.redirect("/user/checkout");
     }
@@ -53,6 +42,7 @@ const handleAddAddress = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteAddress = async (req, res) => {
@@ -65,9 +55,11 @@ const handleDeleteAddress = async (req, res) => {
     const user = await User.findById(req.user._id);
     const userCart = await Cart.findOne({ userId: req.user._id });
     const path = req.route.path;
+    res.status(200);
     res.render("user/profile", { user, path, tab: "address", userCart });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

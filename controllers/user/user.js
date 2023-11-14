@@ -7,6 +7,7 @@ const getHome = async (req, res) => {
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const banners = await Banner.find({});
     const path = req.route.path;
+    res.status(200);
     res.render("user/index", {
       products,
       path,
@@ -16,6 +17,7 @@ const getHome = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getUserAbout = async (req, res) => {
@@ -24,9 +26,11 @@ const getUserAbout = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
+    res.status(200);
     res.render("user/about", { path, user, userWishlist, userCart });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getUserContact = async (req, res) => {
@@ -35,9 +39,11 @@ const getUserContact = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
+    res.status(200);
     res.render("user/contact", { path, user, userWishlist, userCart });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleProductSearch = async (req, res) => {
@@ -51,6 +57,7 @@ const handleProductSearch = async (req, res) => {
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
     const banners = await Banner.find({});
+    res.status(200);
     res.render("user/index", {
       products,
       path,
@@ -61,6 +68,7 @@ const handleProductSearch = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

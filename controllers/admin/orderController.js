@@ -13,6 +13,7 @@ const getOrders = async (req, res) => {
     const pages = Math.ceil(count / perPage);
 
     const path = req.route.path;
+    res.status(200);
     res.render("admin/orderViews/orders", {
       orders,
       current: page,
@@ -21,24 +22,29 @@ const getOrders = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getViewOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/orderViews/viewOrder", { path, order });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getEditOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/orderViews/editOrder", { path, order });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditOrder = async (req, res) => {
@@ -49,15 +55,18 @@ const handleEditOrder = async (req, res) => {
       await Order.findByIdAndUpdate(orderId, {
         status,
       });
+      res.status(200);
       return res.redirect(`/admin/orders/edit/${orderId}`);
     }
     await Order.findByIdAndUpdate(orderId, {
       status,
       deliveredAt: Date.now(),
     });
+    res.status(200);
     res.redirect(`/admin/orders/edit/${orderId}`);
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleCancelOrder = async (req, res) => {
@@ -83,15 +92,16 @@ const handleCancelOrder = async (req, res) => {
       await cancelledProduct.save();
     });
     await user.save();
+    res.status(200);
     if (source == "orders") {
       return res.redirect("/admin/orders");
     } else if (source == "user") {
       return res.redirect("/user/orders");
     }
-
     res.redirect(`/admin/orders/edit/${orderId}`);
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

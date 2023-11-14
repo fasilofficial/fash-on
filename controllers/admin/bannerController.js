@@ -4,26 +4,32 @@ const getBanners = async (req, res) => {
   try {
     const banners = await Banner.find({});
     const path = req.route.path;
+    res.status(200);
     res.render("admin/bannerViews/Banners", { banners, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getAddBanner = async (req, res) => {
   try {
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/bannerViews/addBanner", { path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getEditBanner = async (req, res) => {
   try {
     const banner = await Banner.findById(req.params.id);
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/bannerViews/editBanner", { banner, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddBanner = async (req, res) => {
@@ -42,9 +48,11 @@ const handleAddBanner = async (req, res) => {
     });
     await banner.save();
     req.flash("info", "A new banner added");
+    res.status(200);
     res.redirect("/admin/banners");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditBanner = async (req, res) => {
@@ -60,6 +68,7 @@ const handleEditBanner = async (req, res) => {
         type,
         image: { image: image.buffer, contentType: image.mimetype },
       });
+      res.status(200);
       return res.redirect(`/admin/banners/edit/${bannerId}`);
     }
     await Banner.findByIdAndUpdate(bannerId, {
@@ -68,9 +77,11 @@ const handleEditBanner = async (req, res) => {
       description,
       type,
     });
+    res.status(200);
     res.redirect(`/admin/banners/edit/${bannerId}`);
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteBanner = async (req, res) => {
@@ -78,9 +89,11 @@ const handleDeleteBanner = async (req, res) => {
     const bannerId = req.params.id;
     await Banner.findByIdAndDelete(bannerId);
     req.flash("error", "A banner has been deleted");
+    res.status(200);
     res.redirect("/admin/banners");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

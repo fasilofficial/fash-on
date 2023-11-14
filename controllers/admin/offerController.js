@@ -13,6 +13,7 @@ const getOffers = async (req, res) => {
     const pages = Math.ceil(count / perPage);
 
     const path = req.route.path;
+    res.status(200);
     res.render("admin/offerViews/offers", {
       offers,
       current: page,
@@ -21,23 +22,28 @@ const getOffers = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getAddOffer = async (req, res) => {
   try {
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/offerViews/addOffer", { path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getEditOffer = async (req, res) => {
   try {
     const offer = await Offer.findById(req.params.id);
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/offerViews/editOffer", { offer, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddOffer = async (req, res) => {
@@ -48,6 +54,7 @@ const handleAddOffer = async (req, res) => {
     const existingOffer = await Offer.findOne({ offerName });
     if (existingOffer) {
       await req.flash("error", "Offer already exist.");
+      res.status(409);
       return res.redirect("/admin/offers");
     }
     const offer = new Offer({
@@ -57,9 +64,11 @@ const handleAddOffer = async (req, res) => {
     });
     await offer.save();
     await req.flash("info", "New offer has been added.");
+    res.status(200);
     res.redirect("/admin/offers");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditOffer = async (req, res) => {
@@ -69,18 +78,22 @@ const handleEditOffer = async (req, res) => {
       offerType: req.body.offerType.toLowerCase(),
       offerAmount: req.body.offerAmount,
     });
+    res.status(200);
     res.redirect(`/admin/offers/edit/${req.params.id}`);
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteOffer = async (req, res) => {
   try {
     await Offer.findByIdAndDelete(req.params.id);
     await req.flash("info", "A offer has been deleted.");
+    res.status(200);
     res.redirect("/admin/offers");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

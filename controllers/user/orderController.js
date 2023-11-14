@@ -16,6 +16,7 @@ const getUserOrders = async (req, res) => {
     const pages = Math.ceil(count / perPage);
     const path = req.route.path;
     const user = await User.findById(req.user._id);
+    res.status(200);
     res.render("user/orders", {
       path,
       user,
@@ -27,6 +28,7 @@ const getUserOrders = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getViewUserOrder = async (req, res) => {
@@ -37,6 +39,7 @@ const getViewUserOrder = async (req, res) => {
     const path = "/" + req.route.path.split("/").slice(1, 2);
     const user = await User.findById(req.user._id);
     const source = req.query.source;
+    res.status(200);
     res.render("user/viewOrder", {
       path,
       user,
@@ -47,6 +50,7 @@ const getViewUserOrder = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getOrderPlaced = async (req, res) => {
@@ -55,9 +59,11 @@ const getOrderPlaced = async (req, res) => {
     const user = await User.findById(req.user._id);
     const address = user.addresses.id(addressId);
     const failed = req.query.failed;
+    res.status(200);
     res.render("user/orderPlaced", { address, path: "", failed });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handlePlaceOrder = async (req, res) => {
@@ -164,12 +170,14 @@ const handlePlaceOrder = async (req, res) => {
     newOrder.products = products;
     await Order.insertMany(newOrder);
     await Cart.deleteOne({ userId: req.user._id });
+    res.status(200);
     res.render(`user/orderPlaced`, {
       address: user.addresses.id(addressId),
       path: "",
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleReturnOrder = async (req, res) => {
@@ -182,6 +190,7 @@ const handleReturnOrder = async (req, res) => {
     return res.redirect("/user/orders");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

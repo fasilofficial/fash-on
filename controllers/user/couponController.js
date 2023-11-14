@@ -4,9 +4,11 @@ const getUserCoupons = async (req, res) => {
   try {
     const coupons = await Coupon.find({});
     const path = req.route.path;
+    res.status(200);
     res.render("user/coupons", { coupons, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleApplyCoupon = async (req, res) => {
@@ -38,7 +40,7 @@ const handleApplyCoupon = async (req, res) => {
       });
 
       await userCart.save();
-
+      res.status(200);
       return res.render("user/checkout", {
         path,
         user,
@@ -103,6 +105,7 @@ const handleApplyCoupon = async (req, res) => {
     res.redirect("/user/checkout");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

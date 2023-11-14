@@ -12,6 +12,7 @@ const getRoot = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const getStaticProducts = async (req, res) => {
@@ -53,6 +54,7 @@ const getStaticProducts = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const getStaticProduct = async (req, res) => {
@@ -66,6 +68,7 @@ const getStaticProduct = async (req, res) => {
     res.render("misc/product", { product, relatedProducts, sizes, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const getAbout = async (req, res) => {
@@ -74,6 +77,7 @@ const getAbout = async (req, res) => {
     res.render("misc/about", { path });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const getContact = async (req, res) => {
@@ -82,6 +86,7 @@ const getContact = async (req, res) => {
     res.render("misc/contact", { path });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const get404 = (req, res) => {
@@ -90,6 +95,7 @@ const get404 = (req, res) => {
     res.render("misc/404", { userToken });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 

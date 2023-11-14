@@ -18,6 +18,7 @@ const getProducts = async (req, res) => {
         .skip(perPage * page - perPage)
         .limit(perPage)
         .exec();
+      res.status(200);
       return res.render("user/products", {
         products,
         current: page,
@@ -45,6 +46,7 @@ const getProducts = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getProduct = async (req, res) => {
@@ -57,6 +59,7 @@ const getProduct = async (req, res) => {
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
     const sizes = ["s", "m", "l", "xl", "xxl", "xxxl"];
+    res.status(200);
     res.render("user/product", {
       product,
       relatedProducts,
@@ -67,6 +70,7 @@ const getProduct = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

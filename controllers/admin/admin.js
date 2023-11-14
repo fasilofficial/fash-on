@@ -24,6 +24,7 @@ const getAdminDashboard = async (req, res) => {
     const { yearlySales, monthlySales, weeklySales } =
       generateChart(totalSales);
 
+    res.status(200);
     res.render("admin/admin", {
       path,
       latestOrders,
@@ -40,6 +41,7 @@ const getAdminDashboard = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleExcelDownload = async (req, res) => {
@@ -55,6 +57,7 @@ const handleExcelDownload = async (req, res) => {
       "Content-Type",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     );
+    res.status(200);
     res.sendFile(
       tempFilePath,
       {
@@ -71,13 +74,16 @@ const handleExcelDownload = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getAdmin404 = async (req, res) => {
   try {
+    res.status(400);
     res.render("admin/404");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

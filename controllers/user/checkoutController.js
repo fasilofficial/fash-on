@@ -36,6 +36,7 @@ const getCheckout = async (req, res) => {
     const grandTotal = total - totalCategoryOfferAmount + shippingCharge;
 
     await userCart.save();
+    res.status(200)
     res.render("user/checkout", {
       path,
       user,
@@ -49,6 +50,7 @@ const getCheckout = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 const handleRazorPayPayment = async (req, res) => {
@@ -91,6 +93,7 @@ const handleRazorPayPayment = async (req, res) => {
     res.send(order);
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 };
 

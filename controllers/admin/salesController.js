@@ -13,6 +13,7 @@ const getSales = async (req, res) => {
     const path = req.route.path;
 
     const filterBy = req.query.filterBy;
+    res.status(200);
     if (filterBy) {
       switch (filterBy) {
         case "year": {
@@ -78,6 +79,7 @@ const getSales = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getViewSale = async (req, res) => {
@@ -85,9 +87,11 @@ const getViewSale = async (req, res) => {
     const saleId = req.params.id;
     const sale = await Order.findById(saleId);
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/salesViews/viewSale", { sale, path });
   } catch (error) {
-    console.log();
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleFilterByDate = async (req, res) => {
@@ -100,9 +104,11 @@ const handleFilterByDate = async (req, res) => {
     year = parseInt(year, 10);
     const filteredSales = filterOrdersByDate(totalSales, year, month, date);
     const path = req.route.path;
+    res.status(200);
     res.render("admin/salesViews/sales", { sales: filteredSales, path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

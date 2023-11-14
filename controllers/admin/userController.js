@@ -13,6 +13,7 @@ const getUsers = async (req, res) => {
     const pages = Math.ceil(count / perPage);
 
     const path = req.route.path;
+    res.status(200);
     res.render("admin/userViews/users", {
       users,
       current: page,
@@ -21,14 +22,17 @@ const getUsers = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getAddUser = async (req, res) => {
   try {
     const path = "/" + req.route.path.split("/").slice(1, 2);
+    res.status(200);
     res.render("admin/userViews/addUser", { path });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddUser = async (req, res) => {
@@ -46,7 +50,7 @@ const handleAddUser = async (req, res) => {
     res.redirect("/admin/users");
   } catch (error) {
     console.log(error);
-    res.redirect("/admin/users");
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleBlockAndUnblock = async (req, res) => {
@@ -59,6 +63,7 @@ const handleBlockAndUnblock = async (req, res) => {
     res.redirect("/admin/users");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

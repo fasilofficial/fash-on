@@ -6,9 +6,11 @@ const getWishlist = async (req, res) => {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
+    res.status(200);
     res.render("user/wishlist", { path, user, userWishlist, userCart });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddToWishlist = async (req, res) => {
@@ -48,6 +50,7 @@ const handleAddToWishlist = async (req, res) => {
     return res.redirect("/user");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteFromWishlist = async (req, res) => {
@@ -61,6 +64,7 @@ const handleDeleteFromWishlist = async (req, res) => {
     res.redirect("/user/wishlist");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

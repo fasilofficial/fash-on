@@ -6,9 +6,11 @@ const getCart = async (req, res) => {
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
     const user = await User.findById(req.user._id);
+    res.status(200);
     res.render("user/cart", { path, user, userCart, userWishlist });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleAddToCart = async (req, res) => {
@@ -58,6 +60,7 @@ const handleAddToCart = async (req, res) => {
         { $pull: { wishlistItems: { productId } } }
       );
     }
+    res.status(200);
     if (quantity) {
       return res.redirect("/user/products/" + req.params.id);
     } else if (source == "wishlist") {
@@ -67,6 +70,7 @@ const handleAddToCart = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleDeleteFromCart = async (req, res) => {
@@ -77,6 +81,7 @@ const handleDeleteFromCart = async (req, res) => {
     res.redirect("/user/cart");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleUpdateCart = async (req, res) => {
@@ -99,6 +104,7 @@ const handleUpdateCart = async (req, res) => {
     res.redirect("/user/cart");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 

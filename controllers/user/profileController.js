@@ -20,6 +20,7 @@ const getProfile = async (req, res) => {
     const path = req.route.path;
     const tab = req.query.tab;
     const user = await User.findById(req.user._id);
+    res.status(200);
     res.render("user/profile", {
       user,
       path,
@@ -32,15 +33,18 @@ const getProfile = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const getEditProfile = async (req, res) => {
   try {
     const path = req.route.path;
     const user = await User.findById(req.user._id);
+    res.status(200);
     res.render("user/profile", { user, path, tab: "details" });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleEditProfile = async (req, res) => {
@@ -56,6 +60,7 @@ const handleEditProfile = async (req, res) => {
     return res.redirect("/user/profile?tab=details");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleChangePassword = async (req, res) => {
@@ -82,6 +87,7 @@ const handleChangePassword = async (req, res) => {
     return res.redirect("/user/profile?tab=details");
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
