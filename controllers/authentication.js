@@ -55,24 +55,26 @@ const handleUserSignup = async (req, res) => {
     const { firstName, lastName, email, phone, password, referral } = req.body;
     const existingUser = await User.findOne({ email });
     const referredUser = await User.findOne({ referralCode: referral });
-    if (referredUser) {
-      const referralOffer = await Offer.findOne({ offerName: "referral" });
-      referredUser.walletBalance += referralOffer.offerAmount;
-      await referredUser.save();
-    }
     if (existingUser) {
       return res.render("auth/signup", {
         error: "Email already exists, please use a different email",
       });
     }
+    if (referredUser) {
+      const referralOffer = await Offer.findOne({ offerName: "referral" });
+      referredUser.walletBalance += referralOffer.offerAmount;
+      await referredUser.save();
+    }
     const referralCode = generateReferralCode(6);
     const hashedPassword = await bcrypt.hash(password, 10);
+    const walletBalance = referral ? 50 : 0
     user = new User({
       firstName,
       lastName,
       email,
       phone,
       referralCode,
+      walletBalance,
       password: hashedPassword,
     });
 
