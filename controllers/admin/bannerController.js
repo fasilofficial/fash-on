@@ -5,7 +5,7 @@ const getBanners = async (req, res) => {
     const banners = await Banner.find({});
     const path = req.route.path;
     res.status(200);
-    res.render("admin/bannerViews/Banners", { banners, path });
+    res.render("admin/bannerViews/banners", { banners, path });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
