@@ -71,5 +71,5 @@ app.listen(PORT, (err) => {
       "Something went wrong. Couldn't start the server\nError: ",
       err
     );
-  else console.log("Server running on: http://localhost:" + PORT);
+  else console.log("Server running on port: " + PORT);
 });
