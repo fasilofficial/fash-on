@@ -61,7 +61,7 @@ app.use(
   adminRouter
 );
 app.use("/user", isUserAuthenticated, isNotUserBlocked, setUserSeo, userRouter);
-app.use("/", isNotUserAuthenticated, setUserSeo, staticRouter);
+app.use("/", setUserSeo, staticRouter);
 
 app.get("*", get404);
 

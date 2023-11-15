@@ -2,7 +2,9 @@ const { getUser, getAdmin } = require("../service");
 
 const isUserAuthenticated = async (req, res, next) => {
   const userToken = req.cookies.userToken;
-  if (!userToken && req.path != '/search') {console.log(req.path);return res.redirect("/login")};
+  if (!userToken && req.path != "/search") {
+    return res.redirect("/login");
+  }
   const user = getUser(userToken);
   if (!user) return res.redirect("/");
   req.user = user;
