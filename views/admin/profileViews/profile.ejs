@@ -41,7 +41,7 @@
                 <aside class="col-lg-4">
                   <figure class="text-lg-center">
                     <img class="img-lg mb-3 img-avatar"
-                      src="data:<%= admin.avatar.contentType %>;base64,<%= admin.avatar.image.toString('base64') %>"
+                      src="data:<%= admin.avatar?.contentType %>;base64,<%= admin.avatar?.image.toString('base64') %>"
                       alt="User Photo" />
                     <input type="file" class="form-control" name="avatar" />
                   </figure>
