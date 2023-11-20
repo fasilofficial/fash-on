@@ -1,9 +1,12 @@
 const { Seo } = require("../models");
 
 const setUserSeo = async (req, res, next) => {
-  const { userTitle, userDescription } = await Seo.findOne();
-  res.locals.userTitle = userTitle;
-  res.locals.userDescription = userDescription;
+  const seo = await Seo.findOne()
+  if(seo) {
+    const { userTitle, userDescription } = seo;
+    res.locals.userTitle = userTitle;
+    res.locals.userDescription = userDescription;
+  }
   next();
 };
 const setAdminSeo = async (req, res, next) => {
