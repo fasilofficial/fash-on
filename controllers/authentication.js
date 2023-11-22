@@ -1,5 +1,11 @@
 const bcrypt = require("bcrypt");
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const serviceSid = process.env.TWILIO_SERVICE_SID;
+
+const client = require("twilio")(accountSid, authToken, { lazyLoading: true });
+
 const { sendGeneratedOtp, setUser, setAdmin } = require("../service");
 const { generateReferralCode } = require("../helper");
 
@@ -152,9 +158,16 @@ const handleUserLogin = async (req, res) => {
 const handleUserLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
-    const generatedOtp = req.cookies.generatedOtp;
-    // const isMatch = enteredOtp === generatedOtp;
-    const isMatch = bcrypt.compare(enteredOtp, generatedOtp);
+    const user = await User.findOne({ email: req.cookies.email });
+
+    const verifyOtp = await client.verify.v2
+      .services(serviceSid)
+      .verificationChecks.create({
+        to: "+91" + user.phone,
+        code: enteredOtp,
+      });
+
+    const isMatch = verifyOtp.valid;
     if (!isMatch) {
       res.status(401);
       return res.render("auth/login-verify", {
@@ -216,15 +229,23 @@ const handleAdminLogin = async (req, res) => {
 const handleAdminLoginOtpVerification = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
-    const generatedOtp = req.cookies.generatedOtp;
-    // const isMatch = enteredOtp === generatedOtp;
-    const isMatch = bcrypt.compare(enteredOtp, generatedOtp);
+    const admin = await Admin.findOne({ email: req.cookies.email });
+
+    const verifyOtp = await client.verify.v2
+      .services(serviceSid)
+      .verificationChecks.create({
+        to: "+91" + admin.phone,
+        code: enteredOtp,
+      });
+
+    const isMatch = verifyOtp.valid;
     if (!isMatch) {
       res.status(401);
       return res.render("auth/admin-login-verify", {
         error: "Entered OTP is incorrect, try again",
       });
     }
+    
     const token = setAdmin(admin);
     res.cookie("adminToken", token);
     res.cookie("generatedOtp", "", { maxAge: 1 });

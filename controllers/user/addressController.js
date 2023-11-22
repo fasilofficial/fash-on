@@ -29,6 +29,7 @@ const handleAddAddress = async (req, res) => {
     const userOrders = await Order.find({ customerId: req.user._id });
     const path = req.route.path;
     res.status(200);
+    
     if (sourceUrl == "checkout") {
       return res.redirect("/user/checkout");
     }

@@ -65,7 +65,7 @@ app.use("/", setUserSeo, staticRouter);
 
 app.get("*", get404);
 
-app.listen(PORT, (err) => {
+app.listen(3000, (err) => {
   if (err)
     console.log(
       "Something went wrong. Couldn't start the server\nError: ",

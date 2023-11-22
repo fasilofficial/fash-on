@@ -1,24 +1,17 @@
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require("twilio")(accountSid, authToken);
+const serviceSid = process.env.TWILIO_SERVICE_SID;
 
-const bcrypt = require("bcrypt");
+const client = require("twilio")(accountSid, authToken, { lazyLoading: true });
 
 const sendGeneratedOtp = async (user, res) => {
   try {
-    var generatedOtp = "";
-    let digits = "0123456789";
-    for (let i = 0; i < 6; i++) {
-      generatedOtp += digits[Math.floor(Math.random() * 10)];
-    }
-    await client.messages.create({
-      from: "+18564520062",
+    client.verify.v2.services(serviceSid).verifications.create({
       to: "+91" + user.phone,
-      body: `Your OTP from Fash-on is: ${generatedOtp}. Please use this code to verify your account.`,
+      channel: "sms",
     });
-    res.cookie("generatedOtp", await bcrypt.hash(generatedOtp, 10), {
-      maxAge: 60000,
-    });
+
+    res.cookie("email", user.email);
   } catch (error) {
     console.log(error);
   }
