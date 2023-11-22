@@ -74,52 +74,54 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th width="40%">Product</th>
-                                        <th width="20%">Unit Price</th>
-                                        <th width="20%">Quantity</th>
-                                        <th width="20%" class="text-end">Total</th>
+                                        <th class="text-center">Product</th>
+                                        <th class="text-center">Unit Price</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Size</th>
+                                        <th class="text-end">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% order.products.forEach(product=> { %>
                                         <tr>
                                             <td>
-                                                <a class="itemside" href="#">
+                                                <a class="itemside" href="/products/<%= product.productId._id %>">
                                                     <div class="left">
-                                                        <img src="data:<%= product.productImages[0].contentType %>;base64,<%= product.productImages[0].image.toString('base64') %>"
+                                                        <img src="<%= product.productId.productImages[0].imagePath %>"
                                                             width="40" height="40" class="img-xs" alt="Item">
                                                     </div>
                                                     <div class="info">
-                                                        <%= product.productName %>
+                                                        <%= product.productId.productName %>
                                                     </div>
                                                 </a>
                                             </td>
-                                            <td>₹<%= product.salePrice %>
+                                            <td class="text-center">₹<%= product.productId.salePrice %>
                                             </td>
-                                            <td>
-                                                <%= product.quantity%>
+                                            <td class="text-center">
+                                                <%= product.quantity %>
                                             </td>
-                                            <td class="text-end">₹<%= product.quantity * product.salePrice %>
+                                            <td class="text-center text-capitalize"><%= product.size %></td>
+                                            <td class="text-end">₹<%= product.quantity * product.productId.salePrice %>
                                             </td>
                                         </tr>
                                         <% }) %>
                                             <tr>
-                                                <td colspan="4">
+                                                <td colspan="5">
                                                     <article class="float-end">
+                                                        
                                                         <dl class="dlist">
-                                                            <dt>Subtotal:</dt>
-                                                            <dd>₹<%= order.totalAmount %>
+                                                            <dt>Total category offer:</dt>
+                                                            <dd>- ₹<%= order.totalCategoryOfferAmount %>
                                                             </dd>
                                                         </dl>
                                                         <dl class="dlist">
                                                             <dt>Shipping cost:</dt>
-                                                            <dd>₹<%= order.shippingCharge %>
+                                                            <dd>+ ₹<%= order.shippingCharge %>
                                                             </dd>
                                                         </dl>
                                                         <dl class="dlist">
                                                             <dt>Grand total:</dt>
-                                                            <dd> <b class="h5">₹<%= order.totalAmount +
-                                                                        order.shippingCharge %></b> </dd>
+                                                            <dd> <b class="h5">₹<%= order.totalAmount %></b> </dd>
                                                         </dl>
                                                         <dl class="dlist">
                                                             <dt>Status:</dt>

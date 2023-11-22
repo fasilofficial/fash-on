@@ -58,13 +58,17 @@ const getEditProduct = async (req, res) => {
 const handleAddProduct = async (req, res) => {
   try {
     const uploadedFiles = req.files;
+    console.log(uploadedFiles);
     const productImages = [];
+
     for (const file of uploadedFiles) {
+      console.log(file);
+      let path = file.path.slice(6);
       productImages.push({
-        image: file.buffer,
-        contentType: file.mimetype,
+        imagePath: path,
       });
     }
+
     if (!uploadedFiles) {
       const product = new Product({
         productName: req.body.productName,
@@ -108,10 +112,11 @@ const handleEditProduct = async (req, res) => {
     const uploadedFiles = req.files;
     if (uploadedFiles.length) {
       const productImages = [];
+
       for (const file of uploadedFiles) {
+        let path = file.path.slice(6);
         productImages.push({
-          image: file.buffer,
-          contentType: file.mimetype,
+          imagePath: path,
         });
       }
       await Product.findByIdAndUpdate(req.params.id, {
@@ -125,7 +130,6 @@ const handleEditProduct = async (req, res) => {
         material: req.body.material,
         regularPrice: req.body.regularPrice,
         salePrice: req.body.salePrice,
-        // productImages: productImages,
       });
       const product = await Product.findById(req.params.id);
       productImages.forEach((productImage) => {

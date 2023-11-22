@@ -1,10 +1,13 @@
 const razorPay = require("razorpay");
 
-const { User, Cart, Wishlist, Offer } = require("../../models");
+const { User, Cart, Wishlist, Offer, Product } = require("../../models");
 
 const getCheckout = async (req, res) => {
   try {
-    const userCart = await Cart.findOne({ userId: req.user._id });
+    const userCart = await Cart.findOne({ userId: req.user._id }).populate({
+      path: "cartItems.productId",
+      model: "Product",
+    });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
     const user = await User.findById(req.user._id);
@@ -17,7 +20,7 @@ const getCheckout = async (req, res) => {
 
     let total = userCart.cartItems.reduce(
       (currentTotal, cartItem) =>
-        currentTotal + cartItem.salePrice * cartItem.quantity,
+        currentTotal + cartItem.productId.salePrice * cartItem.quantity,
       0
     );
 
@@ -28,15 +31,16 @@ const getCheckout = async (req, res) => {
     let totalCategoryOfferAmount = 0;
     for (const cartItem of userCart.cartItems) {
       let productCategoryOffer = await Offer.findOne({
-        offerName: cartItem.category,
+        offerName: cartItem.productId.category,
       });
-      cartItem.categoryOfferAmount = productCategoryOffer.offerAmount;
-      totalCategoryOfferAmount += cartItem.categoryOfferAmount;
+
+      cartItem.productId.categoryOfferAmount = productCategoryOffer.offerAmount;
+      totalCategoryOfferAmount += productCategoryOffer.offerAmount;
     }
     const grandTotal = total - totalCategoryOfferAmount + shippingCharge;
 
     await userCart.save();
-    res.status(200)
+    res.status(200);
     res.render("user/checkout", {
       path,
       user,
@@ -50,12 +54,15 @@ const getCheckout = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 };
 const handleRazorPayPayment = async (req, res) => {
   try {
-    const userCart = await Cart.findOne({ userId: req.user._id });
+    const userCart = await Cart.findOne({ userId: req.user._id }).populate({
+      path: "cartItems.productId",
+      model: "Product",
+    });
     const shippingCharge = 50;
 
     const instance = new razorPay({
@@ -65,7 +72,7 @@ const handleRazorPayPayment = async (req, res) => {
 
     let total = userCart.cartItems.reduce(
       (currentTotal, cartItem) =>
-        currentTotal + cartItem.salePrice * cartItem.quantity,
+        currentTotal + cartItem.productId.salePrice * cartItem.quantity,
       0
     );
 
@@ -74,14 +81,27 @@ const handleRazorPayPayment = async (req, res) => {
       : total;
 
     let totalCategoryOfferAmount = 0;
+    let isOutOfStock = false;
+
     for (const cartItem of userCart.cartItems) {
       let productCategoryOffer = await Offer.findOne({
-        offerName: cartItem.category,
+        offerName: cartItem.productId.category,
       });
-      cartItem.categoryOfferAmount = productCategoryOffer.offerAmount;
-      totalCategoryOfferAmount += cartItem.categoryOfferAmount;
+
+      console.log(cartItem.productId);
+      console.log(productCategoryOffer);
+
+      totalCategoryOfferAmount += productCategoryOffer.offerAmount;
+
+      const cartProduct = await Product.findById(cartItem.productId);
+      if (cartProduct.stock < cartItem.quantity) isOutOfStock = true;
     }
+
     const grandTotal = total - totalCategoryOfferAmount + shippingCharge;
+
+    if (isOutOfStock) {
+      return res.redirect("/user/checkout?error=outOfStock");
+    }
 
     const options = {
       amount: grandTotal * 100,
@@ -93,7 +113,7 @@ const handleRazorPayPayment = async (req, res) => {
     res.send(order);
   } catch (error) {
     console.log(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 };
 

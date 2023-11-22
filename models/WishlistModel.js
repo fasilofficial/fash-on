@@ -8,32 +8,18 @@ const wishlistSchema = new mongoose.Schema(
     },
     wishlistItems: [
       {
-        type: new mongoose.Schema(
-          {
-            productId: {
-              type: String,
-            },
-            productName: {
-              type: String,
-              required: true,
-            },
-            salePrice: {
-              type: Number,
-              required: true,
-            },
-            productImages: [
-              {
-                image: {
-                  type: Buffer,
-                },
-                contentType: {
-                  type: String,
-                },
-              },
-            ],
-          },
-          { timestamps: true }
-        ),
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "product",
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+        size: {
+          type: String,
+          default: "s",
+        },
       },
     ],
   },

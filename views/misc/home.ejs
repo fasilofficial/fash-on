@@ -59,7 +59,7 @@
                   <div class="col-lg-7 col-md-6">
                     <div class="single-slider-img single-slider-img-1">
                       <img class="animated slider-1-1"
-                        src="data:<%= banner.image.contentType %>;base64,<%= banner.image.image.toString(`base64`) %>"
+                        src="<%= banner.image.imagePath %>"
                         alt="" />
                     </div>
                   </div>
@@ -88,10 +88,10 @@
                         <div class="product-img product-img-zoom">
                           <a href="/products/<%= product._id %>">
                             <img class="default-img mb-3"
-                              src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
+                              src="<%= product.productImages[0].imagePath %>"
                               alt="" />
                             <img class="hover-img"
-                              src="data:<%= product.productImages[1]?.contentType %>;base64,<%= product.productImages[1]?.image.toString('base64') %>"
+                              src="<%= product.productImages[1]?.imagePath %>"
                               alt="" />
                           </a>
                         </div>
@@ -124,9 +124,7 @@
             <div class="container">
               <div class="row">
                 <div class="col-12">
-                  <div class="banner-bg wow fadeIn animated" style="
-      background-image: url('data:<%= banner.image.contentType %>;base64,<%= banner.image.image.toString(`base64`) %>');
-    ">
+                  <div class="banner-bg wow fadeIn animated" style="background-image: url('<%= encodeURI(banner.image.imagePath) %>')">
                     <div class="banner-content">
                       <h5 class="text-grey-4 mb-15">
                         <%= banner.title %>
@@ -148,9 +146,7 @@
                   <div class="row">
                     <% banners.forEach(banner=> { %> <% if (banner.type=='footer' ) { %>
                         <div class="col-lg-6 deal-co">
-                          <div class="deal wow fadeIn animated" style="
-      background-image: url('data:<%= banner.image.contentType %>;base64,<%= banner.image.image.toString(`base64`) %>');
-    ">
+                          <div class="deal wow fadeIn animated" style="background-image: url('<%= encodeURI(banner.image.imagePath) %>')">
                             <div class="deal-top">
                               <h2 class="text-brand">
                                 <%= banner.title %>

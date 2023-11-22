@@ -78,10 +78,11 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th width="40%">Product</th>
-                                    <th width="20%">Unit Price</th>
-                                    <th width="20%">Quantity</th>
-                                    <th width="20%" class="text-end">Total</th>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Unit Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Size</th>
+                                    <th class="text-center" class="text-end">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,31 +91,34 @@
                                         <td>
                                             <a class="itemside" href="#">
                                                 <div class="left">
-                                                    <img src="data:<%= product.productImages[0].contentType %>;base64,<%= product.productImages[0].image.toString('base64') %>"
+                                                    <img src="<%= product.productId.productImages[0].imagePath %>"
                                                         width="40" height="40" class="img-xs" alt="Item" />
                                                 </div>
                                                 <div class="info">
-                                                    <%= product.productName %>
+                                                    <%= product.productId.productName %>
                                                 </div>
                                             </a>
                                         </td>
-                                        <td>₹<%= product.salePrice %>
+                                        <td class="text-center">₹<%= product.productId.salePrice %>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <%= product.quantity%>
                                         </td>
+                                        <td class="text-center text-capitalize">
+                                            <%= product.size%>
+                                        </td>
                                         <td class="text-end">
-                                            ₹<%= product.quantity * product.salePrice %>
+                                            ₹<%= product.quantity * product.productId.salePrice %>
                                         </td>
                                     </tr>
                                     <% }) %>
                                         <tr>
-                                            <td colspan="4">
+                                            <td colspan="5">
                                                 <article class="float-end">
+                                                        
                                                     <dl class="dlist">
-                                                        <dt>Subtotal:</dt>
-                                                        <dd>
-                                                            ₹<%= order.totalAmount - order.shippingCharge %>
+                                                        <dt>Total category offer:</dt>
+                                                        <dd>- ₹<%= order.totalCategoryOfferAmount %>
                                                         </dd>
                                                     </dl>
                                                     <dl class="dlist">
@@ -124,25 +128,17 @@
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd><b class="h5">₹<%= order.totalAmount %></b></dd>
+                                                        <dd> <b class="h5">₹<%= order.totalAmount %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Status:</dt>
                                                         <dd>
                                                             <span
-                                                                class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' : order.status == 'cancelled' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
+                                                                class="badge rounded-pill text-capitalize <%= order.status == 'pending' ? 'alert-warning text-warning' :  order.status == 'cancelled' || order.status == 'failed' ? 'alert-danger text-danger' : order.status == 'delivered' ? 'alert-success text-success' : 'alert-primary' %>">
                                                                 <%= order.status %>
                                                             </span>
                                                         </dd>
                                                     </dl>
-                                                    <div class="text-center mt-20">
-                                                        <% if (order.status !='delivered' && order.status !='cancelled'
-                                                            ) { %>
-                                                            <a class="btn btn-danger"
-                                                                href="/admin/orders/cancel/<%= order._id %>?source=editOrder">Cancel
-                                                                this order</a>
-                                                            <% } %>
-                                                    </div>
                                                 </article>
                                             </td>
                                         </tr>

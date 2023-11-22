@@ -7,6 +7,10 @@ const getUserOrders = async (req, res) => {
     let perPage = 12;
     let page = req.query.page || 1;
     const userOrders = await Order.find({ customerId: req.user._id })
+      .populate({
+        path: "products.productId",
+        model: "Product",
+      })
       .sort({ createdAt: -1 })
       .skip(perPage * page - perPage)
       .limit(perPage)
@@ -35,7 +39,10 @@ const getViewUserOrder = async (req, res) => {
   try {
     const userCart = await Cart.findOne({ userId: req.user._id });
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate({
+      path: "products.productId",
+      model: "Product",
+    });
     const path = "/" + req.route.path.split("/").slice(1, 2);
     const user = await User.findById(req.user._id);
     const source = req.query.source;
@@ -75,11 +82,18 @@ const handlePlaceOrder = async (req, res) => {
       success,
       error,
     } = req.body;
+
     const user = await User.findById(req.user._id);
     const { email } = user;
+
     const { fullName, street, city, state, pincode, phone, altPhone } =
       user.addresses.id(addressId);
-    const userCart = await Cart.findOne({ userId: req.user._id });
+
+    const userCart = await Cart.findOne({ userId: req.user._id }).populate({
+      path: "cartItems.productId",
+      model: "Product",
+    });
+
     const shippingCharge = 50;
 
     const totalQuantity = userCart.cartItems.reduce(
@@ -89,7 +103,7 @@ const handlePlaceOrder = async (req, res) => {
 
     let total = userCart.cartItems.reduce(
       (currentTotal, cartItem) =>
-        currentTotal + cartItem.salePrice * cartItem.quantity,
+        currentTotal + cartItem.productId.salePrice * cartItem.quantity,
       0
     );
 
@@ -102,13 +116,15 @@ const handlePlaceOrder = async (req, res) => {
 
     for (const cartItem of userCart.cartItems) {
       let productCategoryOffer = await Offer.findOne({
-        offerName: cartItem.category,
+        offerName: cartItem.productId.category,
       });
-      cartItem.categoryOfferAmount = productCategoryOffer.offerAmount;
-      totalCategoryOfferAmount += cartItem.categoryOfferAmount;
+
+      totalCategoryOfferAmount += productCategoryOffer.offerAmount;
+
       const cartProduct = await Product.findById(cartItem.productId);
       if (cartProduct.stock < cartItem.quantity) isOutOfStock = true;
     }
+
     const grandTotal = total - totalCategoryOfferAmount + shippingCharge;
 
     if (isOutOfStock) {
@@ -126,6 +142,8 @@ const handlePlaceOrder = async (req, res) => {
       state,
       pincode,
       totalAmount: grandTotal,
+      totalCategoryOfferAmount,
+      shippingCharge,
       totalQuantity,
       order_id,
       payment_id,
@@ -149,24 +167,25 @@ const handlePlaceOrder = async (req, res) => {
       });
     }
     const products = [];
-    userCart.cartItems.forEach(async (cartItem) => {
-      const {
-        productName,
-        productId,
-        salePrice,
-        quantity,
-        productImages,
-        category,
-      } = cartItem;
-      products.push({
-        quantity,
-        productId,
-        productName,
-        category,
-        salePrice,
-        productImages,
+
+  
+    for (const cartItem of userCart.cartItems) {
+      const { quantity, size } = cartItem;
+
+      let categoryOfferAmount = await Offer.findOne({
+        offerName: cartItem.productId.category,
       });
-    });
+
+      categoryOfferAmount = categoryOfferAmount.offerAmount;
+
+      products.push({
+        productId: cartItem.productId,
+        quantity,
+        size,
+        categoryOfferAmount,
+      });
+    }
+
     newOrder.products = products;
     await Order.insertMany(newOrder);
     await Cart.deleteOne({ userId: req.user._id });

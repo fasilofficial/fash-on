@@ -4,7 +4,12 @@ const getWishlist = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     const userCart = await Cart.findOne({ userId: req.user._id });
-    const userWishlist = await Wishlist.findOne({ userId: req.user._id });
+    const userWishlist = await Wishlist.findOne({
+      userId: req.user._id,
+    }).populate({
+      path: "wishlistItems.productId",
+      model: "Product",
+    });
     const path = req.route.path;
     res.status(200);
     res.render("user/wishlist", { path, user, userWishlist, userCart });
@@ -16,9 +21,7 @@ const getWishlist = async (req, res) => {
 const handleAddToWishlist = async (req, res) => {
   try {
     const productId = req.params.id;
-    const { productName, salePrice, productImages } = await Product.findById(
-      productId
-    );
+
     const userWishlist = await Wishlist.findOne({ userId: req.user });
     if (!userWishlist) {
       const newItem = new Wishlist({
@@ -26,9 +29,6 @@ const handleAddToWishlist = async (req, res) => {
         wishlistItems: [
           {
             productId,
-            productName,
-            salePrice,
-            productImages,
           },
         ],
       });
@@ -40,9 +40,6 @@ const handleAddToWishlist = async (req, res) => {
       if (!existingItem) {
         userWishlist.wishlistItems.push({
           productId,
-          productName,
-          salePrice,
-          productImages,
         });
       }
       await userWishlist.save();

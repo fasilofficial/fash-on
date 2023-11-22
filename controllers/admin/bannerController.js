@@ -42,8 +42,7 @@ const handleAddBanner = async (req, res) => {
       description,
       type,
       image: {
-        image: image.buffer,
-        contentType: image.mimetype,
+        imagePath: image.path.slice(6),
       },
     });
     await banner.save();
@@ -66,7 +65,7 @@ const handleEditBanner = async (req, res) => {
         subtitle,
         description,
         type,
-        image: { image: image.buffer, contentType: image.mimetype },
+        image: { imagePath: image.path.slice(6) },
       });
       res.status(200);
       return res.redirect(`/admin/banners/edit/${bannerId}`);

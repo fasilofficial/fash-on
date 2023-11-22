@@ -27,7 +27,10 @@ const getOrders = async (req, res) => {
 };
 const getViewOrder = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate({
+      path: "products.productId",
+      model: "Product",
+    });
     const path = "/" + req.route.path.split("/").slice(1, 2);
     res.status(200);
     res.render("admin/orderViews/viewOrder", { path, order });
@@ -38,7 +41,10 @@ const getViewOrder = async (req, res) => {
 };
 const getEditOrder = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate({
+      path: "products.productId",
+      model: "Product",
+    });
     const path = "/" + req.route.path.split("/").slice(1, 2);
     res.status(200);
     res.render("admin/orderViews/editOrder", { path, order });

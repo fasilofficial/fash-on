@@ -15,10 +15,7 @@ const bannerScheme = new mongoose.Schema(
       type: String,
     },
     image: {
-      image: {
-        type: Buffer,
-      },
-      contentType: {
+      imagePath: {
         type: String,
       },
     },

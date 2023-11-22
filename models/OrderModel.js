@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    totalCategoryOfferAmount: {
+      type: Number,
+      required: true,
+    },
     totalQuantity: {
       type: Number,
       required: true,
@@ -73,37 +77,19 @@ const orderSchema = new mongoose.Schema(
     },
     products: [
       {
-        type: new mongoose.Schema({
-          productId: {
-            type: String,
-          },
-          productName: {
-            type: String,
-            required: true,
-          },
-          category: {
-            type: String,
-            required: true,
-          },
-          salePrice: {
-            type: Number,
-            required: true,
-          },
-          quantity: {
-            type: Number,
-            required: true,
-          },
-          productImages: [
-            {
-              image: {
-                type: Buffer,
-              },
-              contentType: {
-                type: String,
-              },
-            },
-          ],
-        }),
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "product",
+        },
+        quantity: {
+          type: Number,
+        },
+        size: {
+          type: String,
+        },
+        categoryOfferAmount: {
+          type: Number,
+        },
       },
     ],
   },

@@ -26,26 +26,26 @@
                   <tr>
                     <td class="image product-thumbnail">
                       <img
-                        src="data:<%= wishlistItem.productImages[0].contentType %>;base64,<%= wishlistItem.productImages[0].image.toString('base64') %>"
+                        src="<%= wishlistItem.productId.productImages[0].imagePath %>"
                         alt="#" />
                     </td>
                     <td class="product-des product-name">
                       <h5 class="product-name">
-                        <%= wishlistItem.productName %>
+                        <%= wishlistItem.productId.productName %>
                       </h5>
                     </td>
                     <td class="price" data-title="Price">
-                      <span>₹<%= wishlistItem.salePrice %></span>
+                      <span>₹<%= wishlistItem.productId.salePrice %></span>
                     </td>
                     <td class="text-right" data-title="Cart">
-                      <form action="/user/cart/add/<%= wishlistItem.productId %>?source=wishlist" method="POST">
+                      <form action="/user/cart/add/<%= wishlistItem.productId._id %>?source=wishlist" method="POST">
                         <button type="submit" class="btn-sm button button-add-to-cart"><i
                             class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
         </div>
         </form>
         </td>
         <td class="action" data-title="Remove">
-          <a class="text-danger" href="/user/wishlist/delete/<%= wishlistItem.productId %>"><i
+          <a class="text-danger" href="/user/wishlist/delete/<%= wishlistItem.productId._id %>"><i
               class="fi-rs-trash"></i></a>
         </td>
         </tr>

@@ -29,20 +29,20 @@
                   <tr>
                     <td class="image product-thumbnail">
                       <img
-                        src="data:<%= cartItem.productImages[0].contentType %>;base64,<%= cartItem.productImages[0].image.toString('base64') %>"
+                        src="<%= cartItem.productId.productImages[0].imagePath %>"
                         alt="#" />
                     </td>
                     <td>
                       <h5>
                         <a href="shop-product-full.html">
-                          <%= cartItem.productName %>
+                          <%= cartItem.productId.productName %>
                         </a>
                       </h5>
                       <span class="product-qty">x <%= cartItem.quantity %></span>
                     </td>
-                    <td data-title="Price">₹<%= cartItem.salePrice %>
-                    <td data-title="Category Offer">-₹<%= cartItem.categoryOfferAmount %>
-                    <td data-title="Total">₹<%= cartItem.quantity * cartItem.salePrice - cartItem.categoryOfferAmount %>
+                    <td data-title="Price">₹<%= cartItem.productId.salePrice %>
+                    <td data-title="Category Offer">-₹<%= cartItem.productId.categoryOfferAmount %>
+                    <td data-title="Total">₹<%= cartItem.quantity * cartItem.productId.salePrice - cartItem.productId.categoryOfferAmount %>
                     </td>
                   </tr>
                   <% }) %>

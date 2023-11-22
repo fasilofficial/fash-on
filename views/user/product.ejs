@@ -12,7 +12,7 @@
                   <% product?.productImages.forEach(productImage=> { %>
                     <figure class="border-radius-10">
                       <img
-                        src="data:<%= productImage?.contentType %>;base64,<%= productImage?.image.toString('base64') %>"
+                        src="<%= productImage.imagePath %>"
                         alt="product image" />
                     </figure>
                     <% }) %>
@@ -22,7 +22,7 @@
                   <% product?.productImages.forEach(productImage=> { %>
                     <div>
                       <img
-                        src="data:<%= productImage?.contentType %>;base64,<%= productImage?.image.toString('base64') %>"
+                        src="<%= productImage.imagePath %>"
                         alt="product image" />
                     </div>
 
@@ -253,10 +253,10 @@
                         <div class="product-img product-img-zoom">
                           <a href="<%= relatedProduct._id %>" tabindex="0">
                             <img class="default-img"
-                              src="data:<%= relatedProduct.productImages[0].contentType %>;base64,<%= relatedProduct.productImages[0].image.toString('base64') %>"
+                              src="<%= relatedProduct.productImages[0].imagePath %>"
                               alt="" />
                             <img class="hover-img"
-                              src="data:<%= relatedProduct.productImages[1].contentType %>;base64,<%= relatedProduct.productImages[1].image.toString('base64') %>"
+                              src="<%= relatedProduct.productImages[1].imagePath %>"
                               alt="" />
                           </a>
                         </div>

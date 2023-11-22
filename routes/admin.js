@@ -2,7 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const multer = require("multer");
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
 const upload = multer({ storage });
 
 const {
@@ -59,7 +66,7 @@ const {
 } = require("../controllers");
 
 router.use((req, res, next) => {
-  req.app.set('layout', 'layouts/adminLayout');
+  req.app.set("layout", "layouts/adminLayout");
   next();
 });
 

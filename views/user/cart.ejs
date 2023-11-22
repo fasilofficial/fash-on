@@ -34,23 +34,24 @@
                                         <% if (locals.userCart?.cartItems) { %>
                                             <% userCart.cartItems.forEach(cartItem=> { %>
                                                 <tr>
+
                                                     <td class="image product-thumbnail"><img
-                                                            src="data:<%= cartItem?.productImages[0].contentType %>;base64,<%= cartItem?.productImages[0].image.toString('base64') %>"
+                                                            src="<%= cartItem?.productId.productImages[0].imagePath %>"
                                                             alt="#"></td>
                                                     <td class="product-des product-name">
                                                         <h5 class="product-name"><a
                                                                 href="/user/products/<%= cartItem.productId %>">
-                                                                <%= cartItem.productName %>
+                                                                <%= cartItem.productId.productName %>
                                                             </a></h5>
                                                     </td>
-                                                    <td class="price" data-title="Price"><span>₹<%= cartItem.salePrice
-                                                                %></span></td>
+                                                    <td class="price" data-title="Price"><span>₹<%=
+                                                                cartItem.productId.salePrice %></span></td>
                                                     <td class="size text-uppercase" data-title="Size"><span>
                                                             <%= cartItem.size %>
                                                         </span></td>
                                                     <td class="text-center" data-title="Quantity">
                                                         <form class="form"
-                                                            action="/user/cart/update/<%= cartItem.productId %>?_method=PUT"
+                                                            action="/user/cart/update/<%= cartItem.productId._id %>?_method=PUT"
                                                             method="POST">
                                                             <div class="row justify-content-center align-items-center">
                                                                 <div class="col-4"><input type="number"
@@ -62,11 +63,16 @@
                                                         </form>
                                                     </td>
                                                     <td class="text-right" data-title="Total Amount">
-                                                        <span>₹<%= cartItem.quantity * cartItem.salePrice %> </span>
+                                                        <span>₹<%= cartItem.quantity * cartItem.productId.salePrice %>
+                                                        </span>
                                                     </td>
-                                                    <td class="action" data-title="Remove"><a
-                                                            href="/user/cart/delete/<%= cartItem.productId %>"
-                                                            class="text-danger"><i class="fi-rs-trash"></i></a></td>
+                                                    <td class="action" data-title="Remove">
+                                                        <a href="/user/cart/delete/<%= cartItem.productId._id %>"
+                                                            class="text-danger"><i class="fi-rs-trash"></i></a>
+
+
+
+                                                    </td>
                                                 </tr>
                                                 <% }) %>
                                                     <% } %>

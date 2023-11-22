@@ -2,7 +2,11 @@ const { Product, User, Cart, Wishlist } = require("../../models");
 
 const getCart = async (req, res) => {
   try {
-    const userCart = await Cart.findOne({ userId: req.user._id });
+    const userCart = await Cart.findOne({ userId: req.user._id }).populate({
+      path: "cartItems.productId",
+      model: "Product",
+    });
+
     const userWishlist = await Wishlist.findOne({ userId: req.user._id });
     const path = req.route.path;
     const user = await User.findById(req.user._id);
@@ -17,39 +21,33 @@ const handleAddToCart = async (req, res) => {
   try {
     const source = req.query.source;
     const productId = req.params.id;
-    const { productName, salePrice, productImages, category } =
-      await Product.findById(productId);
     const { quantity, size } = req.body;
-    const userCart = await Cart.findOne({ userId: req.user._id });
+    const userCart = await Cart.findOne({ userId: req.user._id }).populate({
+      path: "cartItems.productId",
+      model: "Product",
+    });
     if (!userCart) {
       const newItem = new Cart({
         userId: req.user._id,
         cartItems: [
           {
             productId,
-            productName,
-            salePrice,
-            category,
-            productImages,
-            size,
             quantity: Number(quantity) || 1,
+            size,
           },
         ],
       });
       await newItem.save();
     } else {
       const existingItem = userCart.cartItems.find(
-        (item) => item.productId === productId
+        (item) => item.productId._id == productId
       );
+
       if (!existingItem) {
         userCart.cartItems.push({
           productId,
-          productName,
-          salePrice,
-          category,
-          productImages,
-          size,
           quantity: Number(quantity) || 1,
+          size,
         });
       } else {
         existingItem.quantity += Number(quantity) || 1;
@@ -60,7 +58,6 @@ const handleAddToCart = async (req, res) => {
         { $pull: { wishlistItems: { productId } } }
       );
     }
-    res.status(200);
     if (quantity) {
       return res.redirect("/user/products/" + req.params.id);
     } else if (source == "wishlist") {
@@ -78,6 +75,7 @@ const handleDeleteFromCart = async (req, res) => {
     const productId = req.params.id;
     const userId = req.user._id;
     await Cart.updateOne({ userId }, { $pull: { cartItems: { productId } } });
+
     res.redirect("/user/cart");
   } catch (error) {
     console.log(error);

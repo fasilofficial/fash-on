@@ -19,10 +19,10 @@
                   <div class="product-img product-img-zoom">
                     <a href="/user/products/<%= product._id %>">
                       <img class="default-img"
-                        src="data:<%= product.productImages[0]?.contentType %>;base64,<%= product.productImages[0]?.image.toString('base64') %>"
+                        src="<%= product.productImages[0].imagePath %>"
                         alt="">
                       <img class="hover-img"
-                        src="data:<%= product.productImages[1]?.contentType %>;base64,<%= product.productImages[1]?.image.toString('base64') %>"
+                        src="<%= product.productImages[1].imagePath %>"
                         alt="">
                     </a>
                   </div>
