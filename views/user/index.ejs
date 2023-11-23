@@ -1,177 +1,90 @@
-<% banners.forEach(banner=> { %> <% if (banner.type=='popup' ) { %>
-    <div class="modal fade custom-modal" id="onloadModal" tabindex="-1" aria-labelledby="onloadModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <div class="modal-body">
-            <div class="deal" style="
-      background-image: url('<%= banner.image.imagePath %>');
-    ">
-              <div class="deal-top">
-                <h2 class="text-brand">
-                  <%= banner.title %>
-                </h2>
-                <h5>
+<section class="home-slider position-relative pt-50">
+  <div class="hero-slider-1 dot-style-1 dot-style-1-position-1">
+    <% banners.forEach(banner=> { %>
+      <div class="single-hero-slider single-animation-wrap">
+        <div class="container">
+          <div class="row align-items-center slider-animated-1">
+            <div class="col-lg-5 col-md-6">
+              <div class="hero-slider-content-2">
+                <h4 class="animated">
                   <%= banner.subtitle %>
-                </h5>
-              </div>
-              <div class="deal-content">
-                <h6 class="product-title">
+                </h4>
+                <h1 class="animated fw-900 text-brand">
+                  <%= banner.title %>
+                </h1>
+                <p class="animated">
                   <%= banner.description %>
-                </h6>
+                </p>
+                <a class="animated btn btn-brush btn-brush-3" href="/user/products">
+                  Shop Now
+                </a>
               </div>
-              <div class="deal-bottom">
-                <a href="/user/products" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
+            </div>
+            <div class="col-lg-7 col-md-6">
+              <div class="single-slider-img single-slider-img-1">
+                <img class="animated slider-1-1" src="<%= banner.image.imagePath %>" alt="" />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <% } %>
       <% }) %>
-        <section class="home-slider position-relative pt-50">
-          <div class="hero-slider-1 dot-style-1 dot-style-1-position-1">
-            <% banners.forEach(banner=> { if (banner.type=='slide' ) { %>
-              <div class="single-hero-slider single-animation-wrap">
-                <div class="container">
-                  <div class="row align-items-center slider-animated-1">
-                    <div class="col-lg-5 col-md-6">
-                      <div class="hero-slider-content-2">
-                        <h4 class="animated">
-                          <%= banner.subtitle %>
-                        </h4>
-                        <h1 class="animated fw-900 text-brand">
-                          <%= banner.title %>
-                        </h1>
-                        <p class="animated">
-                          <%= banner.description %>
-                        </p>
-                        <a class="animated btn btn-brush btn-brush-3" href="/user/products">
-                          Shop Now
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-7 col-md-6">
-                      <div class="single-slider-img single-slider-img-1">
-                        <img class="animated slider-1-1" src="<%= banner.image.imagePath %>" alt="" />
-                      </div>
-                    </div>
+  </div>
+  <div class="slider-arrow hero-slider-1-arrow"></div>
+</section>
+<section class="product-tabs section-padding wow fadeIn animated">
+  <div class="container">
+    <div class="tab-content wow fadeIn animated" id="myTabContent">
+      <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+        <div class="tab-header">
+          <a class="view-more d-none d-md-flex" href="/user/products">All Products
+            <i class="fi-rs-angle-double-small-right"></i>
+          </a>
+        </div>
+        <div class="row product-grid-4">
+          <% products.forEach(product=> { %>
+
+            <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+              <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap mb-10">
+                  <div class="product-img product-img-zoom">
+                    <a href="/user/products/<%= product._id %>">
+                      <img class="default-img mb-3" src="<%= product.productImages[0].imagePath %>" alt="" />
+                      <img class="hover-img" src="<%= product.productImages[1].imagePath %>" alt="" />
+                    </a>
+                  </div>
+                  <div class="product-action-1">
+                    <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                      href="/user/wishlist/add/<%= product._id %>"><i class="fi-rs-heart"></i></a>
                   </div>
                 </div>
-              </div>
-              <% } }) %>
-          </div>
-          <div class="slider-arrow hero-slider-1-arrow"></div>
-        </section>
-        <section class="product-tabs section-padding wow fadeIn animated">
-          <div class="container">
-            <div class="tab-content wow fadeIn animated" id="myTabContent">
-              <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
-                <div class="tab-header">
-                  <a class="view-more d-none d-md-flex" href="/user/products">All Products
-                    <i class="fi-rs-angle-double-small-right"></i>
-                  </a>
+                <div class="product-content-wrap">
+                  <h2>
+                    <a href="/user/products/<%= product._id %>">
+                      <%= product.productName %>
+                    </a>
+                  </h2>
+                  <p class="text-muted">
+                    <%= product.brand %>
+                  </p>
+                  <div class="product-price">
+                    <span>₹<%= product.salePrice %> </span>
+                    <span class="old-price">₹<%= product.regularPrice %></span>
+                  </div>
                 </div>
-                <div class="row product-grid-4">
-                  <% products.forEach(product=> { %>
-
-                    <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                      <div class="product-cart-wrap mb-30">
-                        <div class="product-img-action-wrap mb-10">
-                          <div class="product-img product-img-zoom">
-                            <a href="/user/products/<%= product._id %>">
-                              <img class="default-img mb-3" src="<%= product.productImages[0].imagePath %>" alt="" />
-                              <img class="hover-img" src="<%= product.productImages[1].imagePath %>" alt="" />
-                            </a>
-                          </div>
-                          <div class="product-action-1">
-                            <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                              href="/user/wishlist/add/<%= product._id %>"><i class="fi-rs-heart"></i></a>
-                          </div>
-                        </div>
-                        <div class="product-content-wrap">
-                          <h2>
-                            <a href="/user/products/<%= product._id %>">
-                              <%= product.productName %>
-                            </a>
-                          </h2>
-                          <p class="text-muted">
-                            <%= product.brand %>
-                          </p>
-                          <div class="product-price">
-                            <span>₹<%= product.salePrice %> </span>
-                            <span class="old-price">₹<%= product.regularPrice %></span>
-                          </div>
-                        </div>
-                        <div class="product-action-1 show">
-                          <form id="cart-form" action="/user/cart/add/<%= product._id %>" method="POST">
-                            <button type="submit" class="btn action-btn hover-up cursor" aria-label="Add to cart">
-                              <div><i class="fi-rs-shopping-bag-add"></i></div>
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <% }) %>
+                <div class="product-action-1 show">
+                  <form id="cart-form" action="/user/cart/add/<%= product._id %>" method="POST">
+                    <button type="submit" class="btn action-btn hover-up cursor" aria-label="Add to cart">
+                      <div><i class="fi-rs-shopping-bag-add"></i></div>
+                    </button>
+                  </form>
                 </div>
-                <!--End product-grid-4-->
               </div>
             </div>
-          </div>
-        </section>
-        <% banners.forEach(banner=> { %> <% if (banner.type=='day' ) { %>
-            <section class="mb-50">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="banner-bg wow fadeIn animated"
-                      style="background-image: url('<%= encodeURI(banner.image.imagePath) %>')">
-                      <div class="banner-content">
-                        <h5 class="text-grey-4 mb-15">
-                          <%= banner.title %>
-                        </h5>
-                        <h2 class="fw-600">
-                          <%= banner.description %>
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <% } %>
-              <% }) %>
-
-                <section class="deals section-padding">
-                  <div class="container">
-                    <div class="row">
-                      <% banners.forEach(banner=> { %> <% if (banner.type=='footer' ) { %>
-                          <div class="col-lg-6 deal-co">
-                            <div class="deal wow fadeIn animated"
-                              style="background-image: url('<%= encodeURI(banner.image.imagePath) %>')">
-                              <div class="deal-top">
-                                <h2 class="text-brand">
-                                  <%= banner.title %>
-                                </h2>
-                                <h5>
-                                  <%= banner.subtitle %>
-                                </h5>
-                              </div>
-                              <div class="deal-content">
-                                <h6 class="product-title">
-                                  <%= banner.description %>
-                                </h6>
-                              </div>
-                              <div class="deal-bottom">
-                                <a href="/user/products?category=<%= banner.title.includes('men') ? 'women' : 'men' %>"
-                                  class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                              </div>
-                            </div>
-                          </div>
-                          <% } %>
-                            <% }) %>
-                    </div>
-                  </div>
-                </section>
+            <% }) %>
+        </div>
+        <!--End product-grid-4-->
+      </div>
+    </div>
+  </div>
+</section>

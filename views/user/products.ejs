@@ -30,9 +30,7 @@
                     <a aria-label="Add To Wishlist" class="action-btn hover-up"
                       href="/user/wishlist/add/<%= product._id %>"><i class="fi-rs-heart"></i></a>
                   </div>
-                  <div class="product-badges product-badges-position product-badges-mrg">
-                    <span class="hot">Hot</span>
-                  </div>
+                 
                 </div>
                 <div class="product-content-wrap">
                   <div class="product-category">
@@ -44,8 +42,8 @@
                       <%= product.productName %>
                     </a></h2>
                   <div class="product-price">
-                    <span>$ <%= product.salePrice %> </span>
-                    <span class="old-price">$ <%= product.regularPrice %></span>
+                    <span>₹ <%= product.salePrice %> </span>
+                    <span class="old-price">₹ <%= product.regularPrice %></span>
                   </div>
                   <div class="product-action-1 show">
                     <form id="cart-form" action="/user/cart/add/<%= product._id %>" method="POST">

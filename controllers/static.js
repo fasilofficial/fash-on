@@ -59,7 +59,7 @@ const getStaticProducts = async (req, res) => {
 };
 const getStaticProduct = async (req, res) => {
   try {
-    const product = await Product.findOne({ _id: req.params.id });
+    const product = await Product.findById(req.params.id);
     const relatedProducts = await Product.find({
       $and: [{ _id: { $ne: product._id } }, { category: product.category }],
     }).limit(4);

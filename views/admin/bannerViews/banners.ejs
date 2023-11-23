@@ -37,7 +37,7 @@
         <th scope="col">#</th>
         <th scope="col">Banner Title</th>
         <th scope="col">Banner Subtitle</th>
-        <th scope="col">Banner Type</th>
+        <th scope="col">Banner Description</th>
         <th scope="col" class="text-end">Actions</th>
       </tr>
     </thead>
@@ -47,7 +47,7 @@
         <th scope="row"><%= id + 1 %></th>
         <td><%= banner.title %></td>
         <td><%= banner.subtitle %></td>
-        <td class="text-capitalize"><%= banner.type %></td>
+        <td class="text-truncate"><%= banner.description %></td>
         <td class="text-end">
           <div class="d-flex flex-row justify-content-end gap-2">
             <a

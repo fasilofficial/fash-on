@@ -34,13 +34,12 @@ const getEditBanner = async (req, res) => {
 };
 const handleAddBanner = async (req, res) => {
   try {
-    const { title, subtitle, description, type } = req.body;
+    const { title, subtitle, description } = req.body;
     const image = req.file;
     const banner = new Banner({
       title,
       subtitle,
       description,
-      type,
       image: {
         imagePath: image.path.slice(6),
       },
@@ -57,14 +56,13 @@ const handleAddBanner = async (req, res) => {
 const handleEditBanner = async (req, res) => {
   try {
     const bannerId = req.params.id;
-    const { title, subtitle, description, type } = req.body;
+    const { title, subtitle, description } = req.body;
     const image = req.file;
     if (image) {
       await Banner.findByIdAndUpdate(bannerId, {
         title,
         subtitle,
         description,
-        type,
         image: { imagePath: image.path.slice(6) },
       });
       res.status(200);

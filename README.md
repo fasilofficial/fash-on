@@ -32,4 +32,13 @@ Fash-on is a e-commerce web application developed using Node.js, Express.js, and
 - Sales report with date filter
 - Banner management
 
-## Project status - Ongoing
+## .env
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+TWILIO_SERVICE
+JWT_SECRET_KEY
+MONGODB_URI
+RAZORPAY_KEY_ID
+RAZORPAY_KEY_SECRET
+PORT
+
