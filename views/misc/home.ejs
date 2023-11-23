@@ -146,7 +146,7 @@
                   <div class="row">
                     <% banners.forEach(banner=> { %> <% if (banner.type=='footer' ) { %>
                         <div class="col-lg-6 deal-co">
-                          <div class="deal wow fadeIn animated" style="background-image: url('<%= encodeURI(banner.image.imagePath) %>')">
+                          <div class="deal wow fadeIn animated" style="background-image: url('<%= banner.image.imagePath %>')">
                             <div class="deal-top">
                               <h2 class="text-brand">
                                 <%= banner.title %>
