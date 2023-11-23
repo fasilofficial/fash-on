@@ -245,7 +245,7 @@ const handleAdminLoginOtpVerification = async (req, res) => {
         error: "Entered OTP is incorrect, try again",
       });
     }
-    
+
     const token = setAdmin(admin);
     res.cookie("adminToken", token);
     res.cookie("generatedOtp", "", { maxAge: 1 });
