@@ -183,6 +183,7 @@ const handlePlaceOrder = async (req, res) => {
         quantity,
         size,
         categoryOfferAmount,
+        salePrice: cartItem.productId.salePrice
       });
     }
 

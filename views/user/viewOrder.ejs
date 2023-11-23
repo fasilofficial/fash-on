@@ -95,13 +95,13 @@
                                                     </div>
                                                 </a>
                                             </td>
-                                            <td class="text-center">₹<%= product.productId.salePrice %>
+                                            <td class="text-center">₹<%= product.salePrice %>
                                             </td>
                                             <td class="text-center">
                                                 <%= product.quantity %>
                                             </td>
                                             <td class="text-center text-capitalize"><%= product.size %></td>
-                                            <td class="text-end">₹<%= product.quantity * product.productId.salePrice %>
+                                            <td class="text-end">₹<%= product.quantity * product.salePrice %>
                                             </td>
                                         </tr>
                                         <% }) %>
