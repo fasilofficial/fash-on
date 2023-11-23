@@ -201,7 +201,6 @@ const handlePlaceOrder = async (req, res) => {
 };
 const handleReturnOrder = async (req, res) => {
   try {
-    console.log("something");
     const orderId = req.params.id;
     await Order.findByIdAndUpdate(orderId, {
       status: "returned",

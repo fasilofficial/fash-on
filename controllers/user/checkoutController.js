@@ -88,9 +88,6 @@ const handleRazorPayPayment = async (req, res) => {
         offerName: cartItem.productId.category,
       });
 
-      console.log(cartItem.productId);
-      console.log(productCategoryOffer);
-
       totalCategoryOfferAmount += productCategoryOffer.offerAmount;
 
       const cartProduct = await Product.findById(cartItem.productId);
